@@ -1,0 +1,116 @@
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  padding : 0px;
+  margin : 0px;
+  background: url("/images/Birth_Of_A_Planet.jpg");
+}
+.row {
+	min-width: 780px;
+	max-width: 1024px;
+	margin : auto;
+	padding : 0px 10px;
+}
+
+.alert {
+	margin : 10px;
+	background-color: #FF475C;
+	padding : 10px;
+	border-radius: 5px;
+}
+.msg {
+	margin : 10px;
+	background-color: #42FF2D;
+	padding: 10px;
+	border-radius: 5px;
+}
+
+.pull-left{
+	float : left;
+}
+.pull-right{
+	float : right;
+}
+a {
+  color: #00B7FF;
+}
+
+.btn{
+	color: black;
+	border : 2px solid skyblue;
+	border-radius: 5px;
+	background-color: skyblue;
+	text-decoration: none;
+	padding : 3px;
+}
+.btn:hover {
+	color: blue;
+}
+.btn:active {
+	border: 2px inset #eee;
+	color: blue;
+}
+/* for header */
+header{
+	background-color: #A9CFFF;
+	padding : 10px;
+}
+header a.logo {
+	font-family: sans-serif;
+	font-size: 1.3em;
+	color: black;
+	text-decoration: none;
+}
+header a.btn {
+	float: right;
+	vertical-align: middle;
+}
+canvas {
+	border: 1px solid gray;
+	background: white;
+}
+code pre{
+	margin : 10px;
+	padding: 10px;
+	background: black;
+	color: white;
+}
+
+#loginForm {
+	float : right;
+	background: #DBFFFE;
+	padding : 20px;
+	border-radius: 10px;
+	margin-top : 100px;
+	margin-left: 50px;
+}
+#headline {
+	color : #A9CFFF;
+	padding : 20px;
+	font-size: 25px;
+}
+#help {
+	color : black;
+	background-color: #A9CFFF; 
+	margin-right: 250px;
+	margin-top : 10px;
+	padding : 10px;
+	border-radius: 10px;
+}
+#help dl{
+	margin-left: 1em;
+}
+#help dt {
+	font-weight: bold;
+}
+#help p {
+	margin-left: 1em;
+}
+#side {
+	width : 200px;
+	background: #A9CFFF;
+	padding : 10px;
+	border-radius: 10px;
+}
+#side input[type="file"]{
+	width : 100%;
+}

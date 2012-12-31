@@ -1,0 +1,18 @@
+extends layout
+
+block content
+
+  form#loginForm(action="/login", method="POST")  
+    div
+      input(type="text", name="id", placeholder="ID")
+    div
+      input(type="password", name="password", placeholder="PASSWORD")
+    div
+      input.btn(type="submit", value="Login")
+      input.btn(type="submit", formaction="/signup", formmethod="POST", value="signup")
+  div#headline
+    h1= "Planet Wars"
+    p.
+      Welcome to Planet Wars. Planet Wars is A.I. Competition Platform based on JavaScript.
+      You can submit your JavaScript code. And defeat another A.I.s.
+  
