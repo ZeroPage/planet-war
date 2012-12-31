@@ -2,7 +2,7 @@ exports.code = require("./code.node.js");
 exports.game = require("./game.node.js");
 
 var code = require("./code.node.js");
-var user = require("./user");
+var user = require("./user.node.js");
 var map = require("./map.node.js");
 
 exports.index = function(req, res){
