@@ -14,10 +14,6 @@ exports.upload = function(req, res){
   });
 }
 
-exports.uploadForm = function(req, res){
-  res.render("uploadCode", {title : "code"});
-}
-
 exports.load = function(req, res){
   var id = req.param("id");
   res.sendfile(SAVE_PATH + id +".js");
