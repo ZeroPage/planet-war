@@ -134,16 +134,18 @@ Node.prototype.draw = function(ctx){
   ctx.beginPath();
   ctx.arc(this.x, this.y, this.num, 0, Math.PI*2, true);
   ctx.closePath();
-  ctx.fillStyle = this.team;
+  ctx.fillStyle = this.team || "gray";
+  
   ctx.fill();
 
   ctx.beginPath();
   ctx.arc(this.x, this.y, this.r, 0, Math.PI*2, true);
   ctx.closePath();
+  ctx.strokeStyle = "white";
   ctx.stroke();
 
   ctx.textAlign = "center";
-  ctx.fillStyle = "black";
+  ctx.fillStyle = "white";
   ctx.fillText("" + this.num + "/" + this.r, this.x, this.y + this.r + 10);
 
   ctx.restore();
@@ -219,7 +221,7 @@ Army.prototype.draw  = function(ctx){
   ctx.fill();
   ctx.stroke();
 
-  ctx.fillStyle = "black";
+  ctx.fillStyle = "white";
   ctx.textAlign = "center";
   ctx.fillText(this.num, this.x, this.y + this.num + 10);
 

@@ -3,6 +3,9 @@ body {
   padding : 0px;
   margin : 0px;
   background: url("/images/Birth_Of_A_Planet.jpg");
+  background-repeat: no-repeat;
+  background-color : black;
+  background-position-x : center;
 }
 .row {
 	min-width: 780px;
@@ -65,8 +68,14 @@ header a.btn {
 	vertical-align: middle;
 }
 canvas {
+	display : block;
+	width : 800px;
+	margin : auto;
 	border: 1px solid gray;
-	background: white;
+	border-radius : 10px;
+	margin-top : 10px;
+	background : rgba(0,0,0,.7);
+	background-image : url("/images/coord.png");
 }
 code pre{
 	margin : 10px;
