@@ -123,3 +123,13 @@ code pre{
 #side input[type="file"]{
 	width : 100%;
 }
+#redScore {
+  color : red;
+}
+#blueScore {
+  color : blue;
+}
+#score {
+  font-size : 20px;
+  text-align : center;
+}

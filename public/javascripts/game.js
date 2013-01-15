@@ -46,7 +46,7 @@ function Game(blue, red){
     setTimeout(loop, 0);
   }
   setTimeout(loop, 0);
-
+  this.initScore();
 }
 Game.prototype.draw = function(ctx){
   //clear all
@@ -71,6 +71,25 @@ Game.prototype.run = function(dt){
   this.army = this.army.filter(function(army){
     return army.run(dt);
   });
+  var red = 0;
+  var blue = 0;
+  
+  //calc score
+  this.node.forEach(function(ele){
+    if(ele.team === "red"){
+      red += ele.num;
+    } else if(ele.team === "blue"){
+      blue += ele.num;
+    }
+  });
+  this.army.forEach(function(ele){
+    if(ele.team === "red"){
+      red += ele.num;
+    } else if(ele.team === "blue"){
+      blue += ele.num;
+    }
+  });
+  this.updateScore(red, blue);
 }
 Game.prototype.command = function(team, data){
   if(data.from == data.to)
@@ -103,6 +122,14 @@ Game.prototype.makeInfo = function(team){
     team : team
   };
 }
+Game.prototype.initScore = function(){
+  this.redScore = document.getElementById("redScore");
+  this.blueScore = document.getElementById("blueScore");
+}
+Game.prototype.updateScore = function(red, blue){
+  this.redScore.innerText = red;
+  this.blueScore.innerText = blue;
+};
 
 function Node(x, y, r, num, id){
   this.x = x;
