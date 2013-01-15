@@ -18,10 +18,9 @@ exports.check = function(id, password){
   return users[id] == hash(password);
 };
 exports.add = function(id, password, callback){
-  if(users[id] && id == ""){
+  if(users[id] || id == ""){
     return false;
   } else {
-    hash
     users[id] = hash(password);
     fs.writeFile("user.json", JSON.stringify(users), "utf8", callback);
     return true;
