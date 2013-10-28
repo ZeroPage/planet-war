@@ -34,7 +34,6 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-
 app.get('/', routes.index);
 app.post("/login", routes.login);
 app.get("/logout", routes.logout);

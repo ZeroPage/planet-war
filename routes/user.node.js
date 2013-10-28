@@ -1,33 +1,40 @@
-
-/*
- * GET users listing.
- */
 var fs = require("fs");
 var crypto = require("crypto");
 
-var users = {};
-fs.readFile("user.json", "utf8", function(err, data){
-  if(err){
-    throw err;
-  } else {
-    users = JSON.parse(data);
-  }
-});
-
-exports.check = function(id, password){
-  return users[id] == hash(password);
-};
-exports.add = function(id, password, callback){
-  if(users[id] || id == ""){
-    return false;
-  } else {
-    users[id] = hash(password);
-    fs.writeFile("user.json", JSON.stringify(users), "utf8", callback);
-    return true;
+function readUsers(){
+  try{
+    return require("../users.json");
+  } catch (e){
+    return {};
   }
 }
-function hash(data){
+function sha512(str){
   var hash = crypto.createHash("sha512");
-  hash.update(data, "utf8");
+  //salt
+  hash.update(str + "zeropage", "utf8");
   return hash.digest("base64");
+}
+exports.register = function(id, password, callback){
+  if(id || password || id.length == "" || password == "") return callback("empty id");
+  
+  var users = readUsers();
+  if(!!users[id]) return callback("already exist id");
+
+  users[id] = {password : sha512(password)};
+  fs.writeFile("./users.json", JSON.stringify(users, null, 4), {encode : "utf8"}, callback);
+}
+exports.checkPassword = function(id, password){
+  var users = readUsers();
+  if(password == users[id].password){
+    return true;
+  }
+  return false;
+}
+exports.getUsersName = function(callback){
+  var users = readUsers();
+  var names = []
+  for(var name in users){
+    names.push(name);
+  }
+  return names;
 }

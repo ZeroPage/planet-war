@@ -29,7 +29,7 @@ exports.login = function(req, res){
   var id = req.param("id");
   var password = req.param("password");
 
-  if(user.check(id, password)){
+  if(user.checkPassword(id, password)){
     req.session.user = id;
   } else {
     req.flash("alert", "Wrong ID or PASSWORD");
@@ -56,15 +56,17 @@ exports.signup = function(req, res){
     res.redirect("/");
     return;
   }
-
-  var result = user.add(id, password, function(){
+  user.register(id, password, function(err){
+    if(err) {
+      if(err == "already exist id")
+        req.flash("alert", "already exist ID");
+      else if(err)
+        req.flash("alert", "write error! please try again.");
+      res.redirect("/");
+      return;
+    }
     req.session.user = id;
     res.redirect("/");
   });
-  if(result === false){
-    req.flash("alert", "Already exsit ID");
-    res.redirect("/");
-  }
 }
-
 
