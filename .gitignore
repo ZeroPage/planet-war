@@ -1,6 +1,6 @@
 node_modules/
 codes/
-user.json
+users.json
 
 #for vim
 *.swp

@@ -9,9 +9,15 @@ block content
       input(type="password", name="password", placeholder="PASSWORD")
     div
       input.btn(type="submit", value="Login")
-      input.btn(type="submit", formaction="/signup", formmethod="POST", value="signup")
+  form#signupForm(action="/signup", method="POST")
+    div
+      input(type="text", name="id", placeholder="ID")
+    div
+      input(type="password", name="password", placeholder="PASSWORD")
+    div
+      input.btn(type="submit", value="signup")
   div#headline
-    h1= "Planet Wars"
+    h1= "League of Planets"
     p.
       Welcome to Planet Wars. Planet Wars is A.I. Competition Platform based on JavaScript.
       You can submit your JavaScript code. And defeat another A.I.s.

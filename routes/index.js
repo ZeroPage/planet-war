@@ -13,7 +13,7 @@ exports.index = function(req, res){
       });
     });
   } else {
-    res.render('index', { title: 'Planet War' });  
+    res.render('index', { title: 'League of Planets' });  
   }
 };
 
@@ -50,6 +50,7 @@ exports.signupForm = function(req, res){
 exports.signup = function(req, res){
   var id = req.param("id");
   var password = req.param("password");
+  console.log("test");
 
   if(!id || !password){
     req.flash("alert", "Put ID and Password what you want.");
@@ -58,15 +59,18 @@ exports.signup = function(req, res){
   }
   user.register(id, password, function(err){
     if(err) {
-      if(err == "already exist id")
+      if(err == "already exist id"){
         req.flash("alert", "already exist ID");
-      else if(err)
+      }else if(err){
+        console.log(err);
         req.flash("alert", "write error! please try again.");
+      }
       res.redirect("/");
+
       return;
     }
     req.session.user = id;
     res.redirect("/");
+    return;
   });
 }
-

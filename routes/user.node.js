@@ -15,7 +15,7 @@ function sha512(str){
   return hash.digest("base64");
 }
 exports.register = function(id, password, callback){
-  if(id || password || id.length == "" || password == "") return callback("empty id");
+  if(!id || !password || id == "" || password == "") return callback("empty id");
   
   var users = readUsers();
   if(!!users[id]) return callback("already exist id");
@@ -25,7 +25,7 @@ exports.register = function(id, password, callback){
 }
 exports.checkPassword = function(id, password){
   var users = readUsers();
-  if(password == users[id].password){
+  if(users[id] && password == users[id].password){
     return true;
   }
   return false;
