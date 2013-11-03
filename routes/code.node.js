@@ -32,7 +32,6 @@ exports.loadMySelectedCode = function(req,callback){
 }
 
 exports.loadOtherPriCode = function(req,callback){
-  console.log("Log1");
   var otherPriAIPath = user.getOthersPriAI(req);
   if(otherPriAIPath==null){
     req.flash("alert", "No valid components' AI code.");
