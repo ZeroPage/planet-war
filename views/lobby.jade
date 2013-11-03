@@ -57,15 +57,16 @@ block content
             -for(var i = 0; i < maps.length; i++)
               option #{maps[i]}
         dt
-          label(for="blue") My AI
+          label(for="blueCode") My AI
         dd
-          select(name="blue")
+          select(name="blueCode")
             -for(var i = 0; i < myCodes.length; i ++)
               option #{myCodes[i]}
         dt
-          label(for="red") Others AI
+          label(for="redName") Others AI
         dd
-          select(name="red")
+          select(name="redName")
             -for(var i = 0; i < othersPriAI.length; i++)
               option #{othersPriAI[i]}
+      input(name="blueName", type="hidden", value="#{user}")
       button.btn(type="submit") Let's Fight

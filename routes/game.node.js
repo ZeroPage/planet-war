@@ -1,20 +1,19 @@
-var code = require("./code.node.js");
+var user = require("./user.node.js");
 
 exports.static = function(req, res){
-  if(req.session.user){
+  var blueName = req.param("blueName");
+  var blueCode = req.param("blueCode") || user.getPrimaryAI(blueName);
 
-    var codeName = req.param("blue");
-    var myCodePath = code.getAIPath(req.session.user, codeName);
+  var redName = req.param("redName");
+  var redCode = req.param("redCode") || user.getPrimaryAI(redName);
 
-    var otherName = req.param("red");
-    
-    var otherCodePath = code.getPrimaryAIPath(otherName);
-
-    res.render("game", {
-      title : "game",
-      blue : myCodePath,
-      red : otherCodePath,
-      map : req.param("map")
-    });
-  }
+  if(!blueCode || !redCode){
+    req.flash("alert", "can't load code!");
+  } 
+  res.render("game", {
+    title : "Game",
+    blue : blueName + "/" + blueCode,
+    red : redName + "/" + redCode,
+    map : req.param("map")
+  });
 }
