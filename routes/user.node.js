@@ -50,16 +50,9 @@ exports.getOthersAI = function(callback){
   }
   callback(null, names);
 }
-exports.getOthersPriAI = function(req,callback){
+exports.getPrimaryAI = function(id){
   var users = readUsers();
-  var otherName = req.param("red");
-
-  for(var name in users){
-    if(name==otherName){
-      return otherName+"/"+users[name].primaryCode;
-    }
-  }
-  return;
+  return users[id].primaryCode;
 }
 
 exports.setPrimaryCode = function(userName, codeName, callback){

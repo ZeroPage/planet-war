@@ -1,15 +1,20 @@
 var code = require("./code.node.js");
+
 exports.static = function(req, res){
   if(req.session.user){
-    code.loadMySelectedCode(req,function(err, myCode){
-      code.loadOtherPriCode(req,function(err, otherCode){
-    	res.render("game", {
-   	title : "game",
- 	blue : myCode,
-    	red : otherCode,
-    	map : req.param("map")
-        });
-      });
+
+    var codeName = req.param("blue");
+    var myCodePath = code.getAIPath(req.session.user, codeName);
+
+    var otherName = req.param("red");
+    
+    var otherCodePath = code.getPrimaryAIPath(otherName);
+
+    res.render("game", {
+      title : "game",
+      blue : myCodePath,
+      red : otherCodePath,
+      map : req.param("map")
     });
   }
 }

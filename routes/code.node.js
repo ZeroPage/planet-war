@@ -27,18 +27,25 @@ exports.loadMySlotList = function(req,callback){
   });
 }
 
-exports.loadMySelectedCode = function(req,callback){
-  var codeName = req.param("blue");
-  callback(null,req.session.user+"/"+codeName);
+exports.getPrimaryAIPath = function(id){
+  var codeName = user.getPrimaryAI(id);
+  if(codeName)
+    return id + "/" + user.getPrimaryAI(id);
+  else
+    return null;
+}
+exports.getAIPath = function(id, codeName) {
+  return id + "/" + codeName;
 }
 
-exports.loadOtherPriCode = function(req,callback){
-  console.log("Log1");
-  var otherPriAIPath = user.getOthersPriAI(req);
-  if(otherPriAIPath==null){
-    req.flash("alert", "No valid components' AI code.");
+exports.loadOtherPrimaryCode = function(req,callback){
+  var otherName = req.param("red");
+  var codeName = user.getPrimaryAI(otherName);
+  if(!codeName){
+    callback("No valid components' AI code.");
+  } else {
+    callback(null,otherName + "/" + codeName);
   }
-  callback(null,otherPriAIPath);
 }
 
 exports.loadRequestedFile = function(req, res){
