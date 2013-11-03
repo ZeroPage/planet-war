@@ -68,6 +68,18 @@ header a.logo {
 header div {
 	position :relative;
 }
+header ul.menu {
+	font-family: 'Share Tech', sans-serif;
+	display: inline;
+	cursor: pointer;
+}
+header ul.menu li {
+	display: inline;
+	margin: 0px 10px;
+}
+header ul.menu li:hover {
+	color : white;
+}
 header form, header #logoutBtn {
 	display: inline-block;
 	position: absolute;

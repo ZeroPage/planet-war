@@ -10,6 +10,15 @@ html
       div.row
         a.logo(href="/") League of Planets
         if (user)
+          ul.menu
+            li
+              a lobby
+            li
+              a matching
+            li
+              a rank
+            li
+              a help
           a#logoutBtn(href="/logout") 
             button Logout
         else
