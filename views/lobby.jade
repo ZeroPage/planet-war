@@ -1,7 +1,47 @@
 extends layout
 
 block content
-  
+  section.row.info
+    aside
+      h1 profile
+      dl
+        dt NAME
+        dd test
+        dt SCORE
+        dd
+          table
+            thead
+              tr
+                th WIN
+                th DRAW
+                th LOSE
+            tbody
+              tr
+                td 20
+                td 1
+                td 30
+      a.btn Random Matching
+    article
+      table
+        thead
+          tr
+            th Slot Name
+            th File Upload
+            th Primary
+        tbody
+          form(method="POST", enctype="multipart/form-data")
+            tr
+              td test1
+              td
+                input(type="file")
+                input.btn(type="submit", value="UPLOAD")
+              td
+                input(type="checkbox")
+          tr
+            td(colspan="3") 
+              button.btn +ADD SLOT
+
+  hr
   div#side.pull-right
     form(action="/code", method="POST", enctype="multipart/form-data")
       input(name="code", type="file", required, accept="text/javascript")

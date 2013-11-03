@@ -36,6 +36,18 @@ body {
 	border-radius: 5px;
 	border: 1px solid rgba(255, 71, 92, 0.6);
 }
+.btn {
+	background: none;
+	text-decoration: none;
+	font-family: 'Share Tech', sans-serif;
+	border: 1px solid rgba(30,200,30, 0.6);
+	border-radius: 5px;
+	padding: 5px;
+	color: rgba(30,200,30, 0.6);
+}
+.btn:hover {
+	background: rgba(200,200,200,0.5);
+}
 
 header {
 	position: fixed;
@@ -43,6 +55,7 @@ header {
 	top : 0px;
 	height: 60px;
 	background: #3b5998;
+	z-index: 100;
 }
 header a.logo {
 	font-family: 'Share Tech', sans-serif;
@@ -55,7 +68,7 @@ header a.logo {
 header div {
 	position :relative;
 }
-header form {
+header form, header #logoutBtn {
 	display: inline-block;
 	position: absolute;
 	bottom: 10px;
@@ -112,4 +125,71 @@ section.home aside input[type="submit"]{
 }
 section.home aside input[type="submit"]:hover{
 	background: rgba(200,200,200,0.5);
+}
+
+section.info article {
+	color: white;
+	background-color: rgba(0, 0, 0, 0.6); 
+	margin-right: 350px;
+	padding : 10px;
+	border-radius: 10px;
+	margin-top: 10px;
+	min-height: 400px;
+	border: 1px solid rgba(128, 128, 128, 0.6);
+}
+section.info article table{
+    border-collapse: collapse;
+    width: 100%;
+}
+section.info article table input[type="file"]{
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 0px 5px;
+}
+section.info article table td,
+section.info article table th {
+    border: 1px solid rgba(0, 255, 0, 0.4);
+
+    padding: 5px;
+}
+section.info aside {
+	font-family: 'Share Tech', sans-serif;
+	position: absolute;
+	width: 260px;
+	top : 20px;
+	right : 20px;
+	background: rgba(0,0,0,0.8);
+	border-radius: 10px;
+	padding: 20px;
+	border: 2px solid #333333;
+	font-size: 15pt
+}
+section.info aside h1 {
+    font-size: 2em;
+
+    text-transform: uppercase;
+}
+section.info aside dt {
+    font-weight: bold;
+
+    margin-top: 10px;
+}
+section.info aside dd {
+    margin: 0;
+}
+section.info aside dd table {
+    width: 100%;
+    border-collapse: collapse;
+}
+section.info aside dd table th,
+section.info aside dd table td {
+    border: 1px solid rgba(0, 255, 0, 0.4);
+	
+    text-align: center;
+    padding: 5px;
+}
+section.info aside a.btn {
+	width: 248px;
+	display: inline-block;
+	text-align: center;
 }

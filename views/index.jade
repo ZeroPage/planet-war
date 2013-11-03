@@ -1,40 +1,28 @@
-doctype 5
-html
-  head
-    title= title
-    link(rel='stylesheet', href='')
-    link(rel='stylesheet', href='/stylesheets/index.css')
-    block scripts
-  body
-    header
-      div.row
-        a.logo(href="/") League of Planets
-        form#loginForm(action="/login", method="POST")  
-          input(type="text", name="id", placeholder="ID")
-          input(type="password", name="password", placeholder="PASSWORD")
-          input.btn(type="submit", value="Login")
-    section.row.home
-      article
-        if (flash.msg)
-          p.msg= flash.msg
-        if (flash.alert)
-          p.alert= flash.alert
-        h1= "League of Planets"
-        p.
-          Welcome to Planet Wars. Planet Wars is A.I. Competition Platform based on JavaScript.
-          You can submit your JavaScript code. And defeat another A.I.s.
-      aside
-        h1 JOIN
-        form#signupForm(action="/signup", method="POST")
-          dl
-            dt ID
-            dd
-              input(type="text", name="id", placeholder="id")
-            dt PASSWORD
-            dd
-              input(type="password", name="password", placeholder="password")
-            dt CONFIRM
-            dd
-              input(type="password", name="confirm", placeholder="password confirm")
-          input.btn(type="submit", value="SIGNUP")
-        p By clicking Sign Up, you agree to our Terms and that you have read our Data Use Policy, including our Cookie Use.
+extends layout
+
+block content
+  section.row.home
+    article
+      if (flash.msg)
+        p.msg= flash.msg
+      if (flash.alert)
+        p.alert= flash.alert
+      h1= "League of Planets"
+      p.
+        Welcome to Planet Wars. Planet Wars is A.I. Competition Platform based on JavaScript.
+        You can submit your JavaScript code. And defeat another A.I.s.
+    aside
+      h1 JOIN
+      form#signupForm(action="/signup", method="POST")
+        dl
+          dt ID
+          dd
+            input(type="text", name="id", placeholder="id")
+          dt PASSWORD
+          dd
+            input(type="password", name="password", placeholder="password")
+          dt CONFIRM
+          dd
+            input(type="password", name="confirm", placeholder="password confirm")
+        input.btn(type="submit", value="SIGNUP")
+      p By clicking Sign Up, you agree to our Terms and that you have read our Data Use Policy, including our Cookie Use.
