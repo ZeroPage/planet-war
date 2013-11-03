@@ -60,6 +60,27 @@ body {
 .btn:focus {
     outline: none;
 }
+.icon {
+	position: relative;
+	top: 1px;
+	display: inline-block;
+	font-family: 'Glyphicons Halflings';
+	-webkit-font-smoothing: antialiased;
+	font-style: normal;
+	font-weight: normal;
+}
+button.icon:empty {
+	width: auto;
+}
+.icon:empty {
+	width : 1em;	
+}
+.icon.save:before {
+	content: "\e025";
+}
+.icon.search:before {
+	content: "\e003";
+}
 
 header {
 	position: fixed;
@@ -181,6 +202,9 @@ section.info article table th {
 }
 section.info article table th {
 	font-family: 'Share Tech', sans-serif;
+}
+section.info article table th:last-child {
+	width : 15em;
 }
 section.info aside {
 	font-family: 'Share Tech', sans-serif;
@@ -320,9 +344,6 @@ section.match #searchBox button{
 	font-style: normal;
 	font-weight: normal;
 	line-height: 1;
-}
-section.match #searchBox button:before {
-	content: "\e003";
 }
 section.match > div > button {
 	font-size: 24px;

@@ -1,6 +1,5 @@
 var express = require('express');
 var routes = require('./routes');
-var user = require('./routes/user.node.js');
 var http = require('http');
 var path = require('path');
 var flash = require("flashify");
@@ -38,7 +37,7 @@ app.get("/code", routes.auth, routes.code.uploadForm);
 app.post("/code", routes.auth, routes.code.upload);
 app.get("/code/:id/:codeName", routes.code.loadRequestedFile);
 app.get("/game", routes.game.static);
-app.get("/primaryCode", user.setPrimaryCode);
+app.get("/primaryCode", routes.auth, routes.setPrimaryCode);
 app.get("/help", routes.help)
 app.get("/match", routes.auth, routes.match)
 

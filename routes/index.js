@@ -8,7 +8,7 @@ var map = require("./map.node.js");
 exports.index = function(req, res){
   if(req.session.user){
     code.loadMySlotList(req,function(err, myCodes){
-      user.getOthersAI(req,function(err, othersPriAI){
+      user.getOthersAI(function(err, othersPriAI){
         map.listMap(function(err, maps){
           res.render('lobby', {title : "Lobby", myCodes : myCodes, othersPriAI : othersPriAI, maps : maps});    
         });
@@ -80,4 +80,14 @@ exports.match = function(req, res){
 }
 exports.help = function(req, res){
   res.render("help", {title : "help"});
+}
+exports.setPrimaryCode = function(req,res){
+  var codeName = req.param("codeName");
+  user.setPrimaryCode(req.session.user, codeName, function(err){
+    if(err)
+      req.flash("alert", "error" + err);
+    else    
+      req.flash("msg", "Set primary code as \""+codeName+"\"");
+    res.redirect("/");
+  });
 }

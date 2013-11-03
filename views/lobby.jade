@@ -6,7 +6,7 @@ block content
       h1 profile
       dl
         dt NAME
-        dd test
+        dd #{user}
         dt SCORE
         dd
           table
@@ -22,17 +22,26 @@ block content
                 td 30
       a.btn Random Matching
     article
+      if (flash.msg)
+        p.msg= flash.msg
+      if (flash.alert)
+        p.alert= flash.alert
       table
         thead
           tr
             th File Name
             th Primary
         tbody
-          -for(var i = 0; i < myCodes.length; i ++)
+          -for(var i = 0; i < myCodes.length; i++)
             tr
               td #{myCodes[i]}
               td
-                input(type="checkbox")
+                a(href="/primaryCode?codeName=" + myCodes[i])
+                  button.btn Set Primary
+                button.btn DELETE
+                button.btn
+                  span.icon.save
+                  span &nbsp;Save
           tr
             td(colspan="3")
               form(action="/code", method="POST", enctype="multipart/form-data")
@@ -60,12 +69,3 @@ block content
             -for(var i = 0; i < othersPriAI.length; i++)
               option #{othersPriAI[i]}
       button.btn(type="submit") Let's Fight
-    form(action="primaryCode", method="GET")
-      dl
-        dt
-          label(for="myCode") MyAICode
-        dd
-          select(name="myCode")
-            -for(var i = 0; i < myCodes.length; i ++)
-              option #{myCodes[i]}
-      button.btn(type="submit") Set Primary Code

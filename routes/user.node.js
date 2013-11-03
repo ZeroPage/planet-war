@@ -40,11 +40,10 @@ exports.getUsersName = function(callback){
   return names;
 }
 
-exports.getOthersAI = function(req,callback){
+exports.getOthersAI = function(callback){
   var users = readUsers();
   var names = [];
   for(var name in users){
-    //console.log(users[name].primaryCode);
     if(!!users[name].primaryCode){
       names.push(name);
     }
@@ -63,15 +62,8 @@ exports.getOthersPriAI = function(req,callback){
   return;
 }
 
-exports.setPrimaryCode = function(req,res){
-  var myCode = req.param("myCode");
+exports.setPrimaryCode = function(userName, codeName, callback){
   var users = readUsers();
-  if(!!users[req.session.user]) {
-    users[req.session.user].primaryCode = myCode;
-    fs.writeFile("./users.json", JSON.stringify(users, null, 4), {encode : "utf8"}, null);
-    req.flash("msg", "Set primary code as \""+myCode+"\"");
-  }else{
-    req.flash("alert","already exist id");
-  }
-  res.redirect("/");
+  users[userName].primaryCode = codeName;
+  fs.writeFile("./users.json", JSON.stringify(users, null, 4), {encode : "utf8"}, callback);
 }
