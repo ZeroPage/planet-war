@@ -8,11 +8,7 @@ var map = require("./map.node.js");
 exports.index = function(req, res){
   if(req.session.user){
     code.loadMySlotList(req,function(err, myCodes){
-      user.getOthersAI(function(err, othersPriAI){
-        map.listMap(function(err, maps){
-          res.render('lobby', {title : "Lobby", myCodes : myCodes, othersPriAI : othersPriAI, maps : maps});    
-        });
-      });
+      res.render('lobby', {title : "Lobby", myCodes : myCodes});    
     });
   } else {
     res.render('index', { title: 'League of Planets' });  
@@ -76,7 +72,28 @@ exports.signup = function(req, res){
   });
 }
 exports.match = function(req, res){
-  res.render("match", {title : "match"});
+  code.loadMySlotList(req,function(err, myCodes){
+    if(err){
+      req.flash("alert", "can't load my code list.");
+      req.redirect("/match");
+      return;
+    }
+    map.listMap(function(err, maps){
+      if(err){
+        req.flash("alert", "can't load map list.");
+        req.redirect("/match");
+        return;
+      }
+      user.getOthersAI(function(err, other){
+        res.render("match", {
+          title : "match",
+          myCodes : myCodes,
+          other: other,
+          maps: maps
+        });
+      });
+    });
+  });
 }
 exports.help = function(req, res){
   res.render("help", {title : "help"});

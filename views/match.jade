@@ -5,15 +5,10 @@ block content
     article#map
       h1 Map List
       ul
-        li 
-          input(type="radio", name="my_ai")
-          label test1
-        li 
-          input(type="radio", name="my_ai")
-          label test2
-        li
-          input(type="radio", name="my_ai")
-          label test3
+        -for(var i = 0; i < maps.length; i++)
+          li 
+            input(type="radio", name="map")
+            label #{maps[i]}
     div
       article.ai#my_ai
         fieldset
@@ -27,30 +22,15 @@ block content
               th win
               th draw
               th lose
-            tr
-              td
-                input(type="radio", name="my_ai")
-              td
-                label name
-              td 
-              td
-              td
-            tr
-              td
-                input(type="radio", name="my_ai")
-              td
-                label name
-              td 
-              td
-              td
-            tr
-              td
-                input(type="radio", name="my_ai")
-              td
-                label name
-              td 
-              td
-              td
+            -for(var i = 0; i < myCodes.length; i++)
+              tr
+                td
+                  input(type="radio", name="my_ai", value="#{myCodes[i]}")
+                td
+                  label #{myCodes[i]}
+                td 
+                td
+                td
       article.ai#other_ai
         fieldset
           legend Other AI
@@ -67,28 +47,35 @@ block content
               th win
               th draw
               th lose
-            tr
-              td
-                input(type="radio", name="other_ai")
-              td
-                label name
-              td 
-              td
-              td
-            tr
-              td
-                input(type="radio", name="other_ai")
-              td
-                label name
-              td 
-              td
-              td
-            tr
-              td
-                input(type="radio", name="other_ai")
-              td
-                label name
-              td 
-              td
-              td
+            -for(var i = 0; i < other.length; i++)
+              tr
+                td
+                  input(type="radio", name="other_ai", value="#{other[i]}")
+                td
+                  label #{other[i]}
+                td 
+                td
+                td
       button.btn FIGHT
+  form(action="game", method="GET")
+    dl
+      dt
+        label(for="map") Map
+      dd
+        select(name="map")
+          -for(var i = 0; i < maps.length; i++)
+            option #{maps[i]}
+      dt
+        label(for="blueCode") My AI
+      dd
+        select(name="blueCode")
+          -for(var i = 0; i < myCodes.length; i ++)
+            option #{myCodes[i]}
+      dt
+        label(for="redName") Others AI
+      dd
+        select(name="redName")
+          -for(var i = 0; i < other.length; i++)
+            option #{other[i]}
+    input(name="blueName", type="hidden", value="#{user}")
+    button.btn(type="submit") Let's Fight

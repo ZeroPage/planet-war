@@ -27,27 +27,6 @@ exports.loadMySlotList = function(req,callback){
   });
 }
 
-exports.getPrimaryAIPath = function(id){
-  var codeName = user.getPrimaryAI(id);
-  if(codeName)
-    return id + "/" + user.getPrimaryAI(id);
-  else
-    return null;
-}
-exports.getAIPath = function(id, codeName) {
-  return id + "/" + codeName;
-}
-
-exports.loadOtherPrimaryCode = function(req,callback){
-  var otherName = req.param("red");
-  var codeName = user.getPrimaryAI(otherName);
-  if(!codeName){
-    callback("No valid components' AI code.");
-  } else {
-    callback(null,otherName + "/" + codeName);
-  }
-}
-
 exports.loadRequestedFile = function(req, res){
   var id = req.param("id");
   var codeName = req.param("codeName");
