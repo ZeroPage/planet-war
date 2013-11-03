@@ -25,22 +25,19 @@ block content
       table
         thead
           tr
-            th Slot Name
-            th File Upload
+            th File Name
             th Primary
         tbody
-          form(method="POST", enctype="multipart/form-data")
+          -for(var i = 0; i < myCodes.length; i ++)
             tr
-              td test1
-              td
-                input(type="file")
-                input.btn(type="submit", value="UPLOAD")
+              td #{myCodes[i]}
               td
                 input(type="checkbox")
           tr
-            td(colspan="3") 
-              button.btn +ADD SLOT
-
+            td(colspan="3")
+              form(action="/code", method="POST", enctype="multipart/form-data")
+                input(name="code", type="file", required, accept="text/javascript")
+                input.btn(type="submit", value="+UPLOAD") 
   hr
   div#side.pull-right
     form(action="/code", method="POST", enctype="multipart/form-data")

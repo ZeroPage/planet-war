@@ -6,7 +6,14 @@ exports.makeDir = function(dirPath,callback){
   fs.mkdir(SAVE_PATH+dirPath,callback);
 }
 exports.save = function(id, slot, file, callback){
-  fs.rename(file.path, SAVE_PATH + id + "/" + slot, callback);
+  var is = fs.createReadStream(file.path);
+  var os = fs.createWriteStream(SAVE_PATH + id + "/" + slot);
+  is.pipe(os);
+  is.on('end', function(){
+  	fs.unlinkSync(file.path);
+  	callback(null);
+  });
+  is.on("error", callback);
 }
 
 exports.getFilePath = function(id, slot){

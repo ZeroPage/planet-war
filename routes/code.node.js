@@ -10,6 +10,7 @@ exports.upload = function(req, res){
   codefs.makeDir(req.session.user+"/",null);
 
   codefs.save(req.session.user,codeFile.name,codeFile,function(err){
+    console.log(err);
     if(err)
       req.flash("alert", "fail to save code in server");
     else
