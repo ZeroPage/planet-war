@@ -38,12 +38,7 @@ block content
               form(action="/code", method="POST", enctype="multipart/form-data")
                 input(name="code", type="file", required, accept="text/javascript")
                 input.btn(type="submit", value="+UPLOAD") 
-  hr
-  div#side.pull-right
-    form(action="/code", method="POST", enctype="multipart/form-data")
-      input(name="code", type="file", required, accept="text/javascript")
-      button.btn(type="submit") upload code
-    hr
+  
     form(action="game", method="GET")
       dl
         dt

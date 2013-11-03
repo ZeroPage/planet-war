@@ -1,14 +1,15 @@
 extends layout
 
 block content
-  canvas(width=800, height=600)
-  div#score
-    span#redScore= 0
-    span: /
-    span#blueScore= 0
-  script(src="/maps/#{map}.js")
+  section.row.game
+    canvas(width=800, height=600)
+    div#score
+      span#redScore= 0
+      span: /
+      span#blueScore= 0
+      script(src="/maps/#{map}.js")
   script.
-    var game = new Game("#{blue}", "#{red}");
+    ar game = new Game("#{blue}", "#{red}");
 
 block scripts
   script(src="/javascripts/game.js")

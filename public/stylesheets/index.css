@@ -159,14 +159,16 @@ section.info article table{
 }
 section.info article table input[type="file"]{
     border: 1px solid gray;
-    border-radius: 5px;
-    padding: 0px 5px;
+    border-radius: 0 5px 5px 0;
+    padding-right : 5px;
 }
 section.info article table td,
 section.info article table th {
     border: 1px solid rgba(0, 255, 0, 0.4);
-
     padding: 5px;
+}
+section.info article table th {
+	font-family: 'Share Tech', sans-serif;
 }
 section.info aside {
 	font-family: 'Share Tech', sans-serif;
@@ -216,4 +218,30 @@ section.help article {
 	border-radius: 10px;
 	padding: 20px;
 	border: 2px solid #333333;
+}
+
+section.game canvas {
+	display : block;
+	width : 800px;
+	margin : auto;
+	border: 1px solid gray;
+	border-radius : 10px;
+	margin-top : 10px;
+	background : rgba(0,0,0,.7);
+	background-image : url("/images/coord.png");
+}
+section.game #redScore {
+	color : red;
+}
+section.game #blueScore {
+	color : blue;
+}
+section.game #score {
+	width: 100px;
+	padding : 10px;
+	margin: 10px auto;
+	background-color: rgba(0, 0, 0, 0.8);
+	font-size : 20px;
+	text-align : center;
+	border-radius: 10px;
 }
