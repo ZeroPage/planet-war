@@ -40,6 +40,7 @@ app.get("/code/:id/:codeName", routes.code.loadRequestedFile);
 app.get("/game", routes.game.static);
 app.get("/primaryCode", user.setPrimaryCode);
 app.get("/help", routes.help)
+app.get("/match", routes.auth, routes.match)
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

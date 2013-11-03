@@ -75,6 +75,9 @@ exports.signup = function(req, res){
     return;
   });
 }
+exports.match = function(req, res){
+  res.render("match", {title : "match"});
+}
 exports.help = function(req, res){
   res.render("help", {title : "help"});
 }

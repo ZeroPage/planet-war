@@ -1,0 +1,93 @@
+extends layout
+
+block content
+  section.row.match
+    article#map
+      h1 Map List
+      ul
+        li 
+          input(type="radio", name="my_ai")
+          label test1
+        li 
+          input(type="radio", name="my_ai")
+          label test2
+        li
+          input(type="radio", name="my_ai")
+          label test3
+    div
+      article.ai#my_ai
+        fieldset
+          legend My AI
+          table
+            tr
+              th(rowspan="2")
+              th(rowspan="2") name
+              th(colspan="3") score
+            tr
+              th win
+              th draw
+              th lose
+            tr
+              td
+                input(type="radio", name="my_ai")
+              td
+                label name
+              td 
+              td
+              td
+            tr
+              td
+                input(type="radio", name="my_ai")
+              td
+                label name
+              td 
+              td
+              td
+            tr
+              td
+                input(type="radio", name="my_ai")
+              td
+                label name
+              td 
+              td
+              td
+      article.ai#other_ai
+        fieldset
+          legend Other AI
+          div#searchBox
+            input(type="search", placeholder="search..")
+            button.btn(type="submit") 
+          table
+            tr
+              th(rowspan="2")
+              th(rowspan="2") name
+              th(colspan="3") score
+            tr
+              th win
+              th draw
+              th lose
+            tr
+              td
+                input(type="radio", name="other_ai")
+              td
+                label name
+              td 
+              td
+              td
+            tr
+              td
+                input(type="radio", name="other_ai")
+              td
+                label name
+              td 
+              td
+              td
+            tr
+              td
+                input(type="radio", name="other_ai")
+              td
+                label name
+              td 
+              td
+              td
+      button.btn FIGHT
