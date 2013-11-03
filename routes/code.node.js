@@ -1,5 +1,6 @@
 var fs = require("fs");
 var codefs = require("./codefs.node.js");
+var user = require("./user.node.js");
 
 var SAVE_PATH = "codes/";
 
@@ -18,13 +19,31 @@ exports.upload = function(req, res){
 }
 
 exports.loadMySlotList = function(req,callback){
-  codefs.makeDir(req.session.user+"/",null); 
+  codefs.makeDir(req.session.user+"/",function(err){
+    if(err)
+      console.log("Directory already maded");
+  });
   codefs.getSlotList(req.session.user,callback);
 }
 
-exports.load2 = function(req, res){
+exports.loadMySelectedCode = function(req,callback){
+  var codeName = req.param("blue");
+  callback(null,req.session.user+"/"+codeName);
+}
+
+exports.loadOtherPriCode = function(req,callback){
+  console.log("Log1");
+  var otherPriAIPath = user.getOthersPriAI(req);
+  if(otherPriAIPath==null){
+    req.flash("alert", "No valid components' AI code.");
+  }
+  callback(null,otherPriAIPath);
+}
+
+exports.loadRequestedFile = function(req, res){
   var id = req.param("id");
-  res.sendfile(SAVE_PATH + id +".js");
+  var codeName = req.param("codeName");
+  res.sendfile(SAVE_PATH + id +"/"+codeName+".js");
 }
 exports.listCode = function(callback){
   fs.readdir(SAVE_PATH, function(err, files){

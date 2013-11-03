@@ -44,12 +44,23 @@ exports.getOthersAI = function(req,callback){
   var users = readUsers();
   var names = [];
   for(var name in users){
-    console.log(users[name].primaryCode);
+    //console.log(users[name].primaryCode);
     if(!!users[name].primaryCode){
       names.push(name);
     }
   }
   callback(null, names);
+}
+exports.getOthersPriAI = function(req,callback){
+  var users = readUsers();
+  var otherName = req.param("red");
+
+  for(var name in users){
+    if(name==otherName){
+      return otherName+"/"+users[name].primaryCode;
+    }
+  }
+  return;
 }
 
 exports.setPrimaryCode = function(req,res){
