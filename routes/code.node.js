@@ -22,7 +22,7 @@ exports.loadMySlotList = function(req,callback){
   codefs.getSlotList(req.session.user,callback);
 }
 
-exports.load = function(req, res){
+exports.load2 = function(req, res){
   var id = req.param("id");
   res.sendfile(SAVE_PATH + id +".js");
 }

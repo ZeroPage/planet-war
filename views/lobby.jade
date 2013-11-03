@@ -16,17 +16,17 @@ block content
             -for(var i = 0; i < maps.length; i++)
               option #{maps[i]}
         dt
-          label(for="blue") blue
+          label(for="blue") My AI
         dd
           select(name="blue")
-            -for(var i = 0; i < files.length; i ++)
-              option #{files[i]}
+            -for(var i = 0; i < myCodes.length; i ++)
+              option #{myCodes[i]}
         dt
-          label(for="red") red
+          label(for="red") Others AI
         dd
           select(name="red")
-            -for(var i = 0; i < files.length; i++)
-              option #{files[i]}
+            -for(var i = 0; i < othersPriAI.length; i++)
+              option #{othersPriAI[i]}
       button.btn(type="submit") Let's Fight
     form(action="primaryCode", method="GET")
       dl
@@ -34,8 +34,8 @@ block content
           label(for="myCode") MyAICode
         dd
           select(name="myCode")
-            -for(var i = 0; i < files.length; i ++)
-              option #{files[i]}
+            -for(var i = 0; i < myCodes.length; i ++)
+              option #{myCodes[i]}
       button.btn(type="submit") Set Primary Code
   div#help
     h1 튜토리얼

@@ -40,8 +40,19 @@ exports.getUsersName = function(callback){
   return names;
 }
 
-exports.setPrimaryCode = function(req,res,callback){
-  
+exports.getOthersAI = function(req,callback){
+  var users = readUsers();
+  var names = [];
+  for(var name in users){
+    console.log(users[name].primaryCode);
+    if(!!users[name].primaryCode){
+      names.push(name);
+    }
+  }
+  callback(null, names);
+}
+
+exports.setPrimaryCode = function(req,res){
   var myCode = req.param("myCode");
   var users = readUsers();
   if(!!users[req.session.user]) {

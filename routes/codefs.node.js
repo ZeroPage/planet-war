@@ -15,7 +15,6 @@ exports.getFilePath = function(id, slot){
 exports.getSlotList = function(id, callback){
   fs.readdir(SAVE_PATH + id+"/", function(err, files){
     if(err) {
-    	//console.log("Can be reached??");
     	return callback(err);
     }
     //to detech suffix
