@@ -20,6 +20,7 @@ body {
 	background-repeat: no-repeat;
 	background-color : black;
 	background-position-x : center;
+	background-attachment: fixed;
 }
 .row {
 	min-width: 780px;
