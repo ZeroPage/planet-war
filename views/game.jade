@@ -9,7 +9,7 @@ block content
       span#blueScore= 0
       script(src="/maps/#{map}.js")
   script.
-    ar game = new Game("#{blue}", "#{red}");
+    var game = new Game("#{blue}", "#{red}");
 
 block scripts
   script(src="/javascripts/game.js")
