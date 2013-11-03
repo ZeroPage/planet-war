@@ -10,6 +10,7 @@ exports.upload = function(req, res){
   codefs.makeDir(req.session.user+"/",null);
 
   codefs.save(req.session.user,codeFile.name,codeFile,function(err){
+    console.log(err);
     if(err)
       req.flash("alert", "fail to save code in server");
     else
@@ -22,8 +23,8 @@ exports.loadMySlotList = function(req,callback){
   codefs.makeDir(req.session.user+"/",function(err){
     if(err)
       console.log("Directory already maded");
+    codefs.getSlotList(req.session.user,callback);
   });
-  codefs.getSlotList(req.session.user,callback);
 }
 
 exports.loadMySelectedCode = function(req,callback){

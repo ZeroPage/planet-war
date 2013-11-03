@@ -77,7 +77,11 @@ header ul.menu li {
 	display: inline;
 	margin: 0px 10px;
 }
-header ul.menu li:hover {
+header ul.menu li a{
+	color :black;
+	text-decoration: none;
+}
+header ul.menu li a:hover {
 	color : white;
 }
 header form, header #logoutBtn {
@@ -204,4 +208,12 @@ section.info aside a.btn {
 	width: 248px;
 	display: inline-block;
 	text-align: center;
+}
+
+section.help article {
+	margin-top: 10px;
+	background: rgba(0,0,0,0.8);
+	border-radius: 10px;
+	padding: 20px;
+	border: 2px solid #333333;
 }

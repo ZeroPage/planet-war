@@ -1,0 +1,142 @@
+extends layout
+
+block content
+  section.row.help
+    article
+      h1 튜토리얼
+      h2 준비물
+      p.
+        여러분의 AI를 만들기 위해서는 아래의 두가지만 있으면 됩니다.
+      ul
+        li Text Editor(JavaScript Syntax Highlighting되는 것을 권장함)
+        li Web Browser(Chrome을 권장함)
+      h2 게임 규칙
+      h3 팀 구분
+      p.
+        이 게임은 1:1 AI 대전형식으로 이루어 집니다. 
+        각 팀은 red팀과 blue팀으로 나뉘며, 색깔로 쉽게 구분할수 있습니다.
+        또한 점령되지 않은 행성에는 중립 유닛이 존재하며
+        검은색으로 표시됩니다.
+      h3 점령
+      p.
+        행성은 점령하고 있는 유닛의 숫자보다 많은 숫자의 유닛에 의해 공격당할때 점령이 가능합니다.
+        각자 AI가 각각의 행성을 점령해 나갈수 있도록하면 됩니다.
+      h3 유닛 충원
+      p.
+        행성은 저마다 유닛의 충원속도가 다릅니다. 더 큰 행성일수록 유닛 충원속도가 빠릅니다. 중립유닛은 유닛이 충원되지 않습니다.
+        또한, 행성 크기보다 더 많은 유닛이 존재할경우 유닛숫자가 감소합니다.
+      h3 이동속도
+      p.
+        각 유닛의 속도는 고정이며 거리가 멀수록 가는데 오래걸립니다.
+      h2 Message 표준
+      p 여러분의 AI Code는 Web Worker로써 실행될것입니다.
+        |따라서 맵의 정보를 얻어오고 명령을 내리는데에는 Web Worker Messaging Protocal을 사용합니다.
+      h3 맵정보 받기
+      p.
+        맵의 정보는 매 순간마다 계속해서 보내어 집니다. 맵정보를 받기위해서는 여러분의 코드를 다음과 같이 작성합니다.
+      code
+        pre.
+          onmessage = function(msg){
+            var info = msg.data;
+            //info는 각종 정보를 담고 있습니다.
+          }
+      p.
+        info는 다음과 같은 속성을 가지고 있습니다.
+      dl
+        dt map
+        dd 맵 정보를 담고있는 배열입니다. 각각의 요소는 다음과 같은 속성을 가집니다.
+          dl
+            dt x
+            dd 행성의 x좌표입니다.
+            dt y
+            dd 행성의 y좌표입니다.
+            dt size
+            dd 행성의 크기입니다. 행성의 크기는 유닛 충원속도와 밀접한 관계가 있습니다.
+            dt num
+            dd 행성에 주둔하고 있는 유닛의 숫자입니다.
+            dt team
+            dd 현재 주둔하고 있는 팀입니다. "red" 또는 "blue"로 나타내어지며 주둔하고 있는 팀이 없을경우 undefined입니다.
+            dt id
+            dd 행성의 id입니다. 명령을 내릴때의 식별값입니다.
+        dt army
+        dd 유닛 정보를 담고 있는 배열입니다. 각각의 요소는 다음과 같은 속성을 가집니다.
+          dl
+            dt x
+            dd 유닛의 현재 x 좌표 입니다.
+            dt y
+            dd 유닛의 현재 y 좌표 입니다.
+            dt num
+            dd 유닛의 숫자 입니다.
+            dt team
+            dd 유닛의 소속팀을 나타냅니다. "red" 혹은 "blue"입니다.
+            dt to
+            dd 현재 향하는 목적지 행성의 id 값입니다.
+        dt team
+        dd 자신의 팀 정보입니다. "red" 혹은 "blue"입니다.
+        p.
+          예를들어 1번행성의 x좌표를 얻는것은 다음과 같습니다.
+        code
+          pre.
+            onmessage = function(msg){
+              var info = msg.data;
+              info.map[1].x//1번 행성의 x좌표
+            }
+      h3 명령내리기
+      p.
+        여러분이 명령을 내릴때는 postMessage함수를 이용합니다.
+        이때 postMessage의 인자는 다음과 같은 값을 담은 Json 객체이여야 합니다. 
+      dl
+        dt send
+        dd 보낼 군사 수
+        dt from
+        dd 어디에서 보낼것인지를 가르키는 행성 번호
+        dt to
+        dd 어디로 보낼것인지 가르키는 행성 번호
+      p.
+        예를 들어 1번행성에서 2번 행성으로 20만큼의 군사를 보내는 코드는 다음과 같습니다.
+      code
+        pre.
+          postMessage({send : 20, from : 1, to : 2})
+      h2 JavaScript
+      p.
+        자바 스크립트의 문법은 C와 매우 유사합니다. 단지 몇가지 차이점을 기억하면 충분합니다.
+      h3 변수
+      p.
+        자바스크립트의 모든 변수는 var로 선언합니다. 변수에는 문자열은 물론이고 float 값과 int값도 담길수 있습니다.
+      h3 배열
+      p 자바스크립트 배열은 길이의 제한이 없으며 내부 형이 동일할 필요도 없습니다. 배열은 다음과 같이 선언합니다.
+      code: pre.
+        var arr = [];
+      p 배열은 다음과 같은 속성과 함수를 가집니다.
+      dl
+        dt length
+        dd 배열의 길이
+        dt push()
+        dd 배열의 마지막에 요소를 집어 넣습니다.
+        dt forEach()
+        dd 배열의 모든 요소를 접근합니다.
+      p 더많은 함수는 Chrome Javascript콘솔에서 볼수 있습니다.
+      p 예제 코드 : 배열내 모든 요소 접근하기
+      code: pre.
+        var arr = [1, 2, 3, 4, 5];
+        for(var i =0; i < arr.length; i++){
+          console.log(arr[i]);
+        }
+        //or
+        arr.forEach(function(item, index){
+          console.log(item);
+        });
+      h3 함수
+      p 자바스크립트의 함수는 다음과 같이 선언합니다.
+      code: pre.
+        function foo(){
+          return 0;
+        }
+      p 사용은 다음과 같이 합니다.
+      code: pre.
+        foo();//it return '0'
+      h2 기타
+      p.
+        기타 궁금한점이나 JavaScript문법에 관해 궁금하시면 언제든 문의 바랍니다. 또한 맵 제안과 버그리포팅도 항상 받고 있습니다.
+         
+       
