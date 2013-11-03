@@ -39,3 +39,17 @@ exports.getUsersName = function(callback){
   }
   return names;
 }
+
+exports.setPrimaryCode = function(req,res,callback){
+  
+  var myCode = req.param("myCode");
+  var users = readUsers();
+  if(!!users[req.session.user]) {
+    users[req.session.user].primaryCode = myCode;
+    fs.writeFile("./users.json", JSON.stringify(users, null, 4), {encode : "utf8"}, null);
+    req.flash("msg", "Set primary code as \""+myCode+"\"");
+  }else{
+    req.flash("alert","already exist id");
+  }
+  res.redirect("/");
+}

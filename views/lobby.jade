@@ -28,6 +28,15 @@ block content
             -for(var i = 0; i < files.length; i++)
               option #{files[i]}
       button.btn(type="submit") Let's Fight
+    form(action="primaryCode", method="GET")
+      dl
+        dt
+          label(for="myCode") MyAICode
+        dd
+          select(name="myCode")
+            -for(var i = 0; i < files.length; i ++)
+              option #{files[i]}
+      button.btn(type="submit") Set Primary Code
   div#help
     h1 튜토리얼
     h2 준비물

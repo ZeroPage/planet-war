@@ -38,6 +38,7 @@ app.get("/code", routes.auth, routes.code.uploadForm);
 app.post("/code", routes.auth, routes.code.upload);
 app.get("/code/:id", routes.code.load);
 app.get("/game", routes.game.static);
+app.get("/primaryCode", user.setPrimaryCode);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
