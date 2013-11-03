@@ -22,8 +22,8 @@ exports.loadMySlotList = function(req,callback){
   codefs.makeDir(req.session.user+"/",function(err){
     if(err)
       console.log("Directory already maded");
+    codefs.getSlotList(req.session.user,callback);
   });
-  codefs.getSlotList(req.session.user,callback);
 }
 
 exports.loadMySelectedCode = function(req,callback){

@@ -75,3 +75,6 @@ exports.signup = function(req, res){
     return;
   });
 }
+exports.help = function(req, res){
+  res.render("help", {title : "help"});
+}
