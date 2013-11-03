@@ -5,6 +5,7 @@ function readUsers(){
   try{
     return require("../users.json");
   } catch (e){
+
     return {};
   }
 }
@@ -25,7 +26,7 @@ exports.register = function(id, password, callback){
 }
 exports.checkPassword = function(id, password){
   var users = readUsers();
-  if(users[id] && password == users[id].password){
+  if(users[id] && sha512(password) == users[id].password){
     return true;
   }
   return false;
