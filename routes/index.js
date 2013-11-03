@@ -7,9 +7,11 @@ var map = require("./map.node.js");
 
 exports.index = function(req, res){
   if(req.session.user){
-    code.listCode(function(err, files){
-      map.listMap(function(err, maps){
-        res.render('lobby', {title : "Lobby", files : files, maps : maps});    
+    code.loadMySlotList(req,function(err, myCodes){
+      user.getOthersAI(req,function(err, othersPriAI){
+        map.listMap(function(err, maps){
+          res.render('lobby', {title : "Lobby", myCodes : myCodes, othersPriAI : othersPriAI, maps : maps});    
+        });
       });
     });
   } else {

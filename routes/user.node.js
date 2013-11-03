@@ -39,3 +39,39 @@ exports.getUsersName = function(callback){
   }
   return names;
 }
+
+exports.getOthersAI = function(req,callback){
+  var users = readUsers();
+  var names = [];
+  for(var name in users){
+    //console.log(users[name].primaryCode);
+    if(!!users[name].primaryCode){
+      names.push(name);
+    }
+  }
+  callback(null, names);
+}
+exports.getOthersPriAI = function(req,callback){
+  var users = readUsers();
+  var otherName = req.param("red");
+
+  for(var name in users){
+    if(name==otherName){
+      return otherName+"/"+users[name].primaryCode;
+    }
+  }
+  return;
+}
+
+exports.setPrimaryCode = function(req,res){
+  var myCode = req.param("myCode");
+  var users = readUsers();
+  if(!!users[req.session.user]) {
+    users[req.session.user].primaryCode = myCode;
+    fs.writeFile("./users.json", JSON.stringify(users, null, 4), {encode : "utf8"}, null);
+    req.flash("msg", "Set primary code as \""+myCode+"\"");
+  }else{
+    req.flash("alert","already exist id");
+  }
+  res.redirect("/");
+}
