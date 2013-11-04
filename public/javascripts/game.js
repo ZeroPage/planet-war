@@ -130,6 +130,9 @@ Game.prototype.updateScore = function(red, blue){
   this.redScore.innerText = red;
   this.blueScore.innerText = blue;
 };
+Game.prototype.matchResultCheck = function(red, blue){
+//need to be implemented
+};
 
 function Node(x, y, r, num, id){
   this.x = x;
