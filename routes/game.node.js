@@ -1,15 +1,19 @@
-var code = require("./code.node.js");
+var user = require("./user.node.js");
+
 exports.static = function(req, res){
-  if(req.session.user){
-    code.loadMySelectedCode(req,function(err, myCode){
-      code.loadOtherPriCode(req,function(err, otherCode){
-    	res.render("game", {
-   	title : "game",
- 	blue : myCode,
-    	red : otherCode,
-    	map : req.param("map")
-        });
-      });
-    });
-  }
+  var blueName = req.param("blueName");
+  var blueCode = req.param("blueCode") || user.getPrimaryAI(blueName);
+
+  var redName = req.param("redName");
+  var redCode = req.param("redCode") || user.getPrimaryAI(redName);
+
+  if(!blueCode || !redCode){
+    req.flash("alert", "can't load code!");
+  } 
+  res.render("game", {
+    title : "Game",
+    blue : blueName + "/" + blueCode,
+    red : redName + "/" + redCode,
+    map : req.param("map")
+  });
 }

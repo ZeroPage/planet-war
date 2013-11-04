@@ -27,19 +27,6 @@ exports.loadMySlotList = function(req,callback){
   });
 }
 
-exports.loadMySelectedCode = function(req,callback){
-  var codeName = req.param("blue");
-  callback(null,req.session.user+"/"+codeName);
-}
-
-exports.loadOtherPriCode = function(req,callback){
-  var otherPriAIPath = user.getOthersPriAI(req);
-  if(otherPriAIPath==null){
-    req.flash("alert", "No valid components' AI code.");
-  }
-  callback(null,otherPriAIPath);
-}
-
 exports.loadRequestedFile = function(req, res){
   var id = req.param("id");
   var codeName = req.param("codeName");
