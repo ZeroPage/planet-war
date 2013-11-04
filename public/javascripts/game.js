@@ -4,6 +4,13 @@ function Game(blue, red){
   var blueWorker = new Worker("/code/" + blue);
   var redWorker = new Worker("/code/" + red);
 
+  var img = document.createElement('img');
+  //var img = new Image();
+  img.src ='images/settle_1.png';
+  var rotateAngle = (2*Math.PI)/3;
+  var currentX = -30;
+  var currentY = 200; 
+  
   var that = this;
 
   //map
@@ -39,7 +46,7 @@ function Game(blue, red){
     blueWorker.postMessage(that.makeInfo("blue"));
     redWorker.postMessage(that.makeInfo("red"));
 
-    that.draw(ctx);
+    that.draw(ctx,img,rotateAngle,currentX,currentY);
 
     that.run(dt);
 
@@ -48,7 +55,7 @@ function Game(blue, red){
   setTimeout(loop, 0);
   this.initScore();
 }
-Game.prototype.draw = function(ctx){
+Game.prototype.draw = function(ctx,img,rotateAngle,currentX,currentY){
   //clear all
   ctx.clearRect(0,0,800,600);
 
@@ -58,7 +65,7 @@ Game.prototype.draw = function(ctx){
   });
   //draw army
   this.army.map(function(army){
-    army.draw(ctx);
+    army.draw(ctx,img,rotateAngle,currentX,currentY);
   });
 }
 Game.prototype.run = function(dt){
@@ -237,8 +244,8 @@ Army.prototype.run  = function(dt){
   }
   return true;
 }
-Army.prototype.draw  = function(ctx){
-  ctx.save();
+Army.prototype.draw  = function(ctx,img,rotateAngle,currentX,currentY){
+  /*ctx.save();
 
   ctx.beginPath();
   ctx.arc(this.x, this.y, this.num, 0, Math.PI*2, true);
@@ -253,6 +260,25 @@ Army.prototype.draw  = function(ctx){
   ctx.fillText(this.num, this.x, this.y + this.num + 10);
 
   ctx.restore();
+*/
+    ctx.save();
+    //ctx.beginPath();
+    ctx.drawImage(img, this.x, this.y);
+    //ctx.arc(this.x,this.y,this.num, 0, Math.PI*2,true);
+  //  ctx.closePath();
+  //  ctx.fillStyle = this.team;
+
+    //ctx.fill();
+    //ctx.stroke();
+
+  //  ctx.fillStyle = "white";
+   // ctx.textAlign = "center";
+   // ctx.fillText(this.num, this.x, this.y + this.num + 10);
+    //ctx.translate(300,200);
+   // ctx.rotate(rotateAngle);
+    
+    
+    ctx.restore();
 }
 Army.prototype.info = function(){
   return {
