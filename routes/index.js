@@ -7,12 +7,8 @@ var map = require("./map.node.js");
 
 exports.index = function(req, res){
   if(req.session.user){
-    code.loadMySlotList(req,function(err, myCodes){
-      user.getOthersAI(req,function(err, othersPriAI){
-        map.listMap(function(err, maps){
-          res.render('lobby', {title : "Lobby", myCodes : myCodes, othersPriAI : othersPriAI, maps : maps});    
-        });
-      });
+    code.loadMySlotList(req.session.user, function(err, myCodes){
+      res.render('lobby', {title : "Lobby", myCodes : myCodes});    
     });
   } else {
     res.render('index', { title: 'League of Planets' });  
@@ -75,6 +71,40 @@ exports.signup = function(req, res){
     return;
   });
 }
+exports.match = function(req, res){
+  code.loadMySlotList(req.session.user,function(err, myCodes){
+    if(err){
+      req.flash("alert", "can't load my code list.");
+      req.redirect("/match");
+      return;
+    }
+    map.listMap(function(err, maps){
+      if(err){
+        req.flash("alert", "can't load map list.");
+        req.redirect("/match");
+        return;
+      }
+      user.getOthersAI(function(err, other){
+        res.render("match", {
+          title : "match",
+          myCodes : myCodes,
+          other: other,
+          maps: maps
+        });
+      });
+    });
+  });
+}
 exports.help = function(req, res){
   res.render("help", {title : "help"});
+}
+exports.setPrimaryCode = function(req,res){
+  var codeName = req.param("codeName");
+  user.setPrimaryCode(req.session.user, codeName, function(err){
+    if(err)
+      req.flash("alert", "error" + err);
+    else    
+      req.flash("msg", "Set primary code as \""+codeName+"\"");
+    res.redirect("/");
+  });
 }

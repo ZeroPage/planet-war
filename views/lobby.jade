@@ -6,7 +6,7 @@ block content
       h1 profile
       dl
         dt NAME
-        dd test
+        dd #{user}
         dt SCORE
         dd
           table
@@ -22,58 +22,28 @@ block content
                 td 30
       a.btn Random Matching
     article
+      if (flash.msg)
+        p.msg= flash.msg
+      if (flash.alert)
+        p.alert= flash.alert
       table
         thead
           tr
-            th Slot Name
-            th File Upload
+            th File Name
             th Primary
         tbody
-          form(method="POST", enctype="multipart/form-data")
+          -for(var i = 0; i < myCodes.length; i++)
             tr
-              td test1
+              td #{myCodes[i]}
               td
-                input(type="file")
-                input.btn(type="submit", value="UPLOAD")
-              td
-                input(type="checkbox")
+                a(href="/code/primary?codeName=" + myCodes[i])
+                  button.btn Set Primary
+                button.btn DELETE
+                button.btn
+                  span.icon.save
+                  span &nbsp;Save
           tr
-            td(colspan="3") 
-              button.btn +ADD SLOT
-
-  hr
-  div#side.pull-right
-    form(action="/code", method="POST", enctype="multipart/form-data")
-      input(name="code", type="file", required, accept="text/javascript")
-      button.btn(type="submit") upload code
-    hr
-    form(action="game", method="GET")
-      dl
-        dt
-          label(for="map") Map
-        dd
-          select(name="map")
-            -for(var i = 0; i < maps.length; i++)
-              option #{maps[i]}
-        dt
-          label(for="blue") My AI
-        dd
-          select(name="blue")
-            -for(var i = 0; i < myCodes.length; i ++)
-              option #{myCodes[i]}
-        dt
-          label(for="red") Others AI
-        dd
-          select(name="red")
-            -for(var i = 0; i < othersPriAI.length; i++)
-              option #{othersPriAI[i]}
-      button.btn(type="submit") Let's Fight
-    form(action="primaryCode", method="GET")
-      dl
-        dt
-          label(for="myCode") MyAICode
-        dd
-          select(name="myCode")
-            -for(var i = 0; i < myCodes.length; i ++)
-              option #{myCodes[i]}
-      button.btn(type="submit") Set Primary Code
+            td(colspan="3")
+              form(action="/code", method="POST", enctype="multipart/form-data")
+                input(name="code", type="file", required, accept="text/javascript")
+                input.btn(type="submit", value="+UPLOAD") 
