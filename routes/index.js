@@ -7,7 +7,7 @@ var map = require("./map.node.js");
 
 exports.index = function(req, res){
   if(req.session.user){
-    code.loadMySlotList(req,function(err, myCodes){
+    code.loadMySlotList(req, function(err, myCodes){
       res.render('lobby', {title : "Lobby", myCodes : myCodes});    
     });
   } else {
@@ -72,7 +72,7 @@ exports.signup = function(req, res){
   });
 }
 exports.match = function(req, res){
-  code.loadMySlotList(req,function(err, myCodes){
+  code.loadMySlotList(req.session.user,function(err, myCodes){
     if(err){
       req.flash("alert", "can't load my code list.");
       req.redirect("/match");

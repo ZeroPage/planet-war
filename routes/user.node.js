@@ -5,7 +5,6 @@ function readUsers(){
   try{
     return require("../users.json");
   } catch (e){
-
     return {};
   }
 }
@@ -31,7 +30,7 @@ exports.checkPassword = function(id, password){
   }
   return false;
 }
-exports.getUsersName = function(callback){
+exports.getUsersName = function(){
   var users = readUsers();
   var names = []
   for(var name in users){
