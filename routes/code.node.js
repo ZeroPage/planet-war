@@ -7,7 +7,7 @@ var SAVE_PATH = "codes/";
 exports.upload = function(req, res){
   var codeFile = req.files.code;
 
-  codefs.makeDir(req.session.user+"/",null);
+  codefs.makeDir(req.session.user + "/",null);
 
   codefs.save(req.session.user,codeFile.name,codeFile,function(err){
     console.log(err);
@@ -19,8 +19,8 @@ exports.upload = function(req, res){
   });
 }
 
-exports.loadMySlotList = function(userName,callback){
-  codefs.makeDir(userName+"/",function(err){
+exports.loadMySlotList = function(userName, callback){
+  codefs.makeDir(userName +"/",function(err){
     if(err)
       console.log("Directory already maded");
     codefs.getSlotList(userName,callback);

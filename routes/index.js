@@ -7,7 +7,7 @@ var map = require("./map.node.js");
 
 exports.index = function(req, res){
   if(req.session.user){
-    code.loadMySlotList(req, function(err, myCodes){
+    code.loadMySlotList(req.session.user, function(err, myCodes){
       res.render('lobby', {title : "Lobby", myCodes : myCodes});    
     });
   } else {
