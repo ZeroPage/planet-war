@@ -249,8 +249,8 @@ Army.prototype.draw  = function(ctx, img){
   
   ctx.translate(this.x, this.y);
   //TODO 적절하게 앵글 조절할것
-  var angle = Math.atan(this.vy/this.vx) + (this.vy < 0 ? 0 : Math.PI);
-  ctx.rotate(Math.atan(this.vy/this.vx));
+  var angle = Math.atan(this.vx/-this.vy) + (this.vy <= 0 ? 0 : Math.PI);
+  ctx.rotate(angle);
   ctx.translate(-this.x, -this.y);
   
   var size = this.num + 10;
