@@ -231,7 +231,7 @@ function Army(from, to, num, team){
 
   this.to = to;
 
-  var f = dx < 0;
+  var f = dx < 0; 
   this._check = function(){
     var f2 = this.x - to.x < 0;
     return !((f && f2) ||(!f && !f2));
