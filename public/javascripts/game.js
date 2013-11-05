@@ -3,13 +3,9 @@ function Game(blue, red){
   var ctx = canvas.getContext("2d");
   var blueWorker = new Worker("/code/" + blue);
   var redWorker = new Worker("/code/" + red);
-
-  var img = document.createElement('img');
-  //var img = new Image();
-  img.src ='images/settle_1.png';
-  var rotateAngle = (2*Math.PI)/3;
-  var currentX = -30;
-  var currentY = 200; 
+  
+  this.spaceShip = new Image();
+  this.spaceShip.src = 'images/settle_1.png';
   
   var that = this;
 
@@ -21,9 +17,7 @@ function Game(blue, red){
   });
 
   //just for Army
-  this.army = [].map(function(item){
-    return item;
-  });
+  this.army = [];
 
   //listener
   blueWorker.onmessage = function(msg){
@@ -46,7 +40,7 @@ function Game(blue, red){
     blueWorker.postMessage(that.makeInfo("blue"));
     redWorker.postMessage(that.makeInfo("red"));
 
-    that.draw(ctx,img,rotateAngle,currentX,currentY);
+    that.draw(ctx);
 
     that.run(dt);
 
@@ -55,22 +49,23 @@ function Game(blue, red){
   setTimeout(loop, 0);
   this.initScore();
 }
-Game.prototype.draw = function(ctx,img,rotateAngle,currentX,currentY){
+Game.prototype.draw = function(ctx){
+  var that = this;
   //clear all
   ctx.clearRect(0,0,800,600);
 
   //draw map
-  this.node.map(function(node){
+  this.node.forEach(function(node){
     node.draw(ctx);
   });
   //draw army
-  this.army.map(function(army){
-    army.draw(ctx,img,rotateAngle,currentX,currentY);
+  this.army.forEach(function(army){
+    army.draw(ctx, that.spaceShip);
   });
 }
 Game.prototype.run = function(dt){
   //calc regen to map
-  this.node.map(function(node){
+  this.node.forEach(function(node){
     node.run(dt)
   });
   
@@ -247,41 +242,34 @@ Army.prototype.run  = function(dt){
   }
   return true;
 }
-Army.prototype.draw  = function(ctx,img,rotateAngle,currentX,currentY){
-  /*ctx.save();
+Army.prototype.draw  = function(ctx, img){
+  ctx.save();
+  
+  ctx.save();
+  
+  ctx.translate(this.x, this.y);
+  //TODO 적절하게 앵글 조절할것
+  var angle = Math.atan(this.vy/this.vx) + (this.vy < 0 ? 0 : Math.PI);
+  ctx.rotate(Math.atan(this.vy/this.vx));
+  ctx.translate(-this.x, -this.y);
+  
+  var size = this.num + 10;
+  ctx.drawImage(img, this.x - size/2, this.y - size/2, size, size);
+  
+  ctx.restore();
 
   ctx.beginPath();
-  ctx.arc(this.x, this.y, this.num, 0, Math.PI*2, true);
+  ctx.arc(this.x, this.y, this.num + 10, 0, Math.PI*2,true);
   ctx.closePath();
-  ctx.fillStyle = this.team;
+  ctx.strokeStyle = this.team;
 
-  ctx.fill();
   ctx.stroke();
 
   ctx.fillStyle = "white";
   ctx.textAlign = "center";
-  ctx.fillText(this.num, this.x, this.y + this.num + 10);
+  ctx.fillText(this.num, this.x, this.y + this.num + 20);
 
   ctx.restore();
-*/
-    ctx.save();
-    //ctx.beginPath();
-    ctx.drawImage(img, this.x, this.y);
-    //ctx.arc(this.x,this.y,this.num, 0, Math.PI*2,true);
-  //  ctx.closePath();
-  //  ctx.fillStyle = this.team;
-
-    //ctx.fill();
-    //ctx.stroke();
-
-  //  ctx.fillStyle = "white";
-   // ctx.textAlign = "center";
-   // ctx.fillText(this.num, this.x, this.y + this.num + 10);
-    //ctx.translate(300,200);
-   // ctx.rotate(rotateAngle);
-    
-    
-    ctx.restore();
 }
 Army.prototype.info = function(){
   return {
