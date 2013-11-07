@@ -6,8 +6,13 @@ function Game(blue, red){
   
   this.spaceShip = new Image();
   this.spaceShip.src = 'images/settle_1.png';
-  this.planet = new Image();
-  this.planet.src = 'images/planet/1.png';
+  this.planet = new Array();
+  for(var i = 0; i<3;i++){
+    this.planet[i] = new Image();
+  }
+  this.planet[0].src = 'images/planet/blue/1.png';
+
+  this.planet[2].src = 'images/planet/gray/1.png';
   var that = this;
 
   //map
@@ -181,7 +186,11 @@ Node.prototype.draw = function(ctx, planetImg){
   ctx.fillStyle = "white";
   ctx.fillText("" + this.num + "/" + this.r, this.x, this.y + this.r + 10);
 
-  ctx.drawImage(planetImg, this.x-this.r, this.y-this.r, this.r*2, this.r*2);
+  if(this.team == "blue"){
+    ctx.drawImage(planetImg[0], this.x-this.r, this.y-this.r, this.r*2, this.r*2);
+  }else{
+    ctx.drawImage(planetImg[2], this.x-this.r, this.y-this.r, this.r*2, this.r*2);
+  }
   ctx.restore();
 }
 Node.prototype.add = function(army){
