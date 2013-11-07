@@ -6,7 +6,8 @@ function Game(blue, red){
   
   this.spaceShip = new Image();
   this.spaceShip.src = 'images/settle_1.png';
-  
+  this.planet = new Image();
+  this.planet.src = 'images/planet/1.png';
   var that = this;
 
   //map
@@ -56,7 +57,7 @@ Game.prototype.draw = function(ctx){
 
   //draw map
   this.node.forEach(function(node){
-    node.draw(ctx);
+    node.draw(ctx, that.planet);
   });
   //draw army
   this.army.forEach(function(army){
@@ -160,7 +161,7 @@ Node.prototype.run = function(dt){
     }
   }
 }
-Node.prototype.draw = function(ctx){
+Node.prototype.draw = function(ctx, planetImg){
   ctx.save();
 
   ctx.beginPath();
@@ -168,7 +169,7 @@ Node.prototype.draw = function(ctx){
   ctx.closePath();
   ctx.fillStyle = this.team || "gray";
   
-  ctx.fill();
+  //ctx.fill();
 
   ctx.beginPath();
   ctx.arc(this.x, this.y, this.r, 0, Math.PI*2, true);
@@ -180,6 +181,7 @@ Node.prototype.draw = function(ctx){
   ctx.fillStyle = "white";
   ctx.fillText("" + this.num + "/" + this.r, this.x, this.y + this.r + 10);
 
+  ctx.drawImage(planetImg, this.x-this.r, this.y-this.r, this.r*2, this.r*2);
   ctx.restore();
 }
 Node.prototype.add = function(army){
