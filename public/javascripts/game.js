@@ -11,7 +11,7 @@ function Game(blue, red){
     this.planet[i] = new Image();
   }
   this.planet[0].src = 'images/planet/blue/1.png';
-
+  this.planet[1].src = 'images/planet/red/1.png';
   this.planet[2].src = 'images/planet/gray/1.png';
   var that = this;
 
@@ -188,6 +188,8 @@ Node.prototype.draw = function(ctx, planetImg){
 
   if(this.team == "blue"){
     ctx.drawImage(planetImg[0], this.x-this.r, this.y-this.r, this.r*2, this.r*2);
+  }else if(this.team == "red"){
+    ctx.drawImage(planetImg[1],this.x-this.r, this.y-this.r, this.r*2, this.r*2);
   }else{
     ctx.drawImage(planetImg[2], this.x-this.r, this.y-this.r, this.r*2, this.r*2);
   }
