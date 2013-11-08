@@ -1,18 +1,25 @@
+var resource = {
+  earth : [],
+  mars : [],
+  moon : []
+}
+//earth와 관련된 모든 리소스를 담고, 순서대로 출력
+resource.earth[0] = new Image();
+resource.earth[0].src = "images/planet/blue/1.png";
+resource.earth[1] = new Image();
+resource.earth[1].src = "images/planet/blue/2.png";
+
 function Game(blue, red){
   var canvas = document.getElementsByTagName('canvas')[0];
   var ctx = canvas.getContext("2d");
   var blueWorker = new Worker("/code/" + blue);
   var redWorker = new Worker("/code/" + red);
   
+  var PlanetframNum = 1;
   this.spaceShip = new Image();
   this.spaceShip.src = 'images/settle_1.png';
   this.planet = new Array();
-  for(var i = 0; i<3;i++){
-    this.planet[i] = new Image();
-  }
-  this.planet[0].src = 'images/planet/blue/1.png';
-  this.planet[1].src = 'images/planet/red/1.png';
-  this.planet[2].src = 'images/planet/gray/1.png';
+
   var that = this;
 
   //map
@@ -42,7 +49,7 @@ function Game(blue, red){
     var oldt = ct;
     ct = Date.now();
     dt = ct - oldt;
-
+   
     blueWorker.postMessage(that.makeInfo("blue"));
     redWorker.postMessage(that.makeInfo("red"));
 
@@ -148,7 +155,9 @@ function Node(x, y, r, num, id){
   this.r = r;
   this.num = num || 0;
   this.id = id;
-  this.regenCount = 0; 
+  this.regenCount = 0;
+  this.rotatePlanetIndex = 0; 
+  this.delayCount = 0;
 }
 Node.prototype.run = function(dt){
   this.regenCount += dt * this.r;
@@ -187,11 +196,19 @@ Node.prototype.draw = function(ctx, planetImg){
   ctx.fillText("" + this.num + "/" + this.r, this.x, this.y + this.r + 10);
 
   if(this.team == "blue"){
-    ctx.drawImage(planetImg[0], this.x-this.r, this.y-this.r, this.r*2, this.r*2);
+    ctx.drawImage(resource.earth[this.rotatePlanetIndex], this.x-this.r, this.y-this.r, this.r*2, this.r*2);
   }else if(this.team == "red"){
-    ctx.drawImage(planetImg[1],this.x-this.r, this.y-this.r, this.r*2, this.r*2);
+    ctx.drawImage(resource.earth[this.rotatePlanetIndex],this.x-this.r, this.y-this.r, this.r*2, this.r*2);
   }else{
-    ctx.drawImage(planetImg[2], this.x-this.r, this.y-this.r, this.r*2, this.r*2);
+    ctx.drawImage(resource.earth[this.rotatePlanetIndex], this.x-this.r, this.y-this.r, this.r*2, this.r*2);
+  }
+  this.delayCount = this.delayCount + 1;
+  if(this.delayCount == 10){
+    this.rotatePlanetIndex = this.rotatePlanetIndex + 1;
+    this.delayCount = 0;
+  }
+  if(this.rotatePlanetIndex == 2){
+    this.rotatePlanetIndex = 0;
   }
   ctx.restore();
 }
