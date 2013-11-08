@@ -8,6 +8,24 @@ resource.earth[0] = new Image();
 resource.earth[0].src = "images/planet/blue/1.png";
 resource.earth[1] = new Image();
 resource.earth[1].src = "images/planet/blue/2.png";
+resource.earth[2] = new Image();
+resource.earth[2].src = "images/planet/blue/3.png";
+resource.earth[3] = new Image();
+resource.earth[3].src = "images/planet/blue/4.png";
+resource.earth[4] = new Image();
+resource.earth[4].src = "images/planet/blue/5.png";
+resource.earth[5] = new Image();
+resource.earth[5].src = "images/planet/blue/6.png";
+resource.earth[6] = new Image();
+resource.earth[6].src = "images/planet/blue/7.png";
+
+
+resource.mars[0] = new Image();
+resource.mars[0].src = "images/planet/red/1.png";
+
+
+resource.moon[0] = new Image();
+resource.moon[0].src = "images/planet/gray/1.png";
 
 function Game(blue, red){
   var canvas = document.getElementsByTagName('canvas')[0];
@@ -18,13 +36,13 @@ function Game(blue, red){
   var PlanetframNum = 1;
   this.spaceShip = new Image();
   this.spaceShip.src = 'images/settle_1.png';
-  this.planet = new Array();
 
   var that = this;
 
   //map
   this.node = _map.map(function(item, index){
-    var node = new Node(item.x, item.y, item.r, item.num, index);
+    console.log("length size is " + this.length);
+    var node = new Node(item.x, item.y, item.r, item.num, index, parseInt(Math.random()*this.length));
     node.team = item.team;
     return node;
   });
@@ -69,7 +87,7 @@ Game.prototype.draw = function(ctx){
 
   //draw map
   this.node.forEach(function(node){
-    node.draw(ctx, that.planet);
+    node.draw(ctx);
   });
   //draw army
   this.army.forEach(function(army){
@@ -149,7 +167,7 @@ Game.prototype.matchResultCheck = function(red, blue){
 //need to be implemented
 };
 
-function Node(x, y, r, num, id){
+function Node(x, y, r, num, id, number){
   this.x = x;
   this.y = y;
   this.r = r;
@@ -158,6 +176,7 @@ function Node(x, y, r, num, id){
   this.regenCount = 0;
   this.rotatePlanetIndex = 0; 
   this.delayCount = 0;
+  this.gameRanId =  number;
 }
 Node.prototype.run = function(dt){
   this.regenCount += dt * this.r;
@@ -175,7 +194,7 @@ Node.prototype.run = function(dt){
     }
   }
 }
-Node.prototype.draw = function(ctx, planetImg){
+Node.prototype.draw = function(ctx){
   ctx.save();
 
   ctx.beginPath();
@@ -186,7 +205,7 @@ Node.prototype.draw = function(ctx, planetImg){
   //ctx.fill();
 
   ctx.beginPath();
-  ctx.arc(this.x, this.y, this.r, 0, Math.PI*2, true);
+  ctx.arc(this.x, this.y, this.r*1.1, 0, Math.PI*2, true);
   ctx.closePath();
   ctx.strokeStyle = "white";
   ctx.stroke();
@@ -195,19 +214,23 @@ Node.prototype.draw = function(ctx, planetImg){
   ctx.fillStyle = "white";
   ctx.fillText("" + this.num + "/" + this.r, this.x, this.y + this.r + 10);
 
-  if(this.team == "blue"){
-    ctx.drawImage(resource.earth[this.rotatePlanetIndex], this.x-this.r, this.y-this.r, this.r*2, this.r*2);
+  if(this.id == this.gameRanId){
+    ctx.drawImage(resource.earth[this.rotatePlanetIndex], this.x-this.r*3.64, this.y-this.r*2.15, this.r*6, this.r*4);
   }else if(this.team == "red"){
-    ctx.drawImage(resource.earth[this.rotatePlanetIndex],this.x-this.r, this.y-this.r, this.r*2, this.r*2);
+    ctx.drawImage(resource.mars[0],this.x-this.r*3.64, this.y-this.r*2.15, this.r*6, this.r*4);
   }else{
-    ctx.drawImage(resource.earth[this.rotatePlanetIndex], this.x-this.r, this.y-this.r, this.r*2, this.r*2);
+    ctx.drawImage(resource.moon[0], this.x-this.r*3.64, this.y-this.r*2.15, this.r*6, this.r*4);
   }
+  //delay를 위한 카운트
   this.delayCount = this.delayCount + 1;
-  if(this.delayCount == 10){
+
+  if(this.delayCount == 25){
+    //25번 더한뒤 25가 되면 그대 프레임 변경
     this.rotatePlanetIndex = this.rotatePlanetIndex + 1;
     this.delayCount = 0;
   }
-  if(this.rotatePlanetIndex == 2){
+  if(this.rotatePlanetIndex == 7){
+    // 프레인 7개를 번갈아 가게 하기 위해 
     this.rotatePlanetIndex = 0;
   }
   ctx.restore();
