@@ -336,3 +336,4 @@ Army.prototype.info = function(){
 Army.prototype.check = function(){
   return ((this.to.x - this.x) * this.vx <= 0 && (this.to.y - this.y) * this.vy <= 0);
 }
+//gittest
