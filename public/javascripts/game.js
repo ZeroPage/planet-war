@@ -9,7 +9,7 @@ for(var i =0; i < 7; i++){
   resource.earth[i].src = "/images/planet/blue/"+(i+1)+".png";
 }
 
-for(var i = 0; i < 2; i++){
+for(var i = 0; i < 1; i++){
   resource.mars[i] = new Image();
   resource.mars[i].src = "/images/planet/red/"+(i+1)+".png";
 }
@@ -197,10 +197,21 @@ Node.prototype.draw = function(ctx, dt){
   //ctx.fill();
 
   ctx.beginPath();
-  ctx.arc(this.x, this.y, this.r*1.1, 0, Math.PI*2, true);
+  ctx.arc(this.x, this.y, this.r*1, 0, Math.PI*2, true);
   ctx.closePath();
   ctx.strokeStyle = "white";
   ctx.stroke();
+  
+  ctx.beginPath();
+  var start = -Math.PI/2 + 0.3;
+  var end = (this.num/this.r) * (Math.PI*2-0.3);
+  var space = this.r * 1.1 > this.r + 5 ? this.r * 1.1 : this.r + 5;
+  ctx.arc(this.x, this.y, space, start, start+end, false);
+  ctx.arc(this.x, this.y, space + 5, start+end, start, true);
+  ctx.closePath();
+  ctx.fill();
+  
+  
 
   ctx.textAlign = "center";
   ctx.fillStyle = "white";
