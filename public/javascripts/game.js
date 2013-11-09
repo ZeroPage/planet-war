@@ -4,28 +4,18 @@ var resource = {
   moon : []
 }
 //earth와 관련된 모든 리소스를 담고, 순서대로 출력
-resource.earth[0] = new Image();
-resource.earth[0].src = "images/planet/blue/1.png";
-resource.earth[1] = new Image();
-resource.earth[1].src = "images/planet/blue/2.png";
-resource.earth[2] = new Image();
-resource.earth[2].src = "images/planet/blue/3.png";
-resource.earth[3] = new Image();
-resource.earth[3].src = "images/planet/blue/4.png";
-resource.earth[4] = new Image();
-resource.earth[4].src = "images/planet/blue/5.png";
-resource.earth[5] = new Image();
-resource.earth[5].src = "images/planet/blue/6.png";
-resource.earth[6] = new Image();
-resource.earth[6].src = "images/planet/blue/7.png";
+for(var i =0; i < 7; i++){
+  resource.earth[i] = new Image();
+  resource.earth[i].src = "/images/planet/blue/"+(i+1)+".png";
+}
 
-
-resource.mars[0] = new Image();
-resource.mars[0].src = "images/planet/red/1.png";
-
+for(var i = 0; i < 2; i++){
+  resource.mars[i] = new Image();
+  resource.mars[i].src = "/images/planet/red/"+(i+1)+".png";
+}
 
 resource.moon[0] = new Image();
-resource.moon[0].src = "images/planet/gray/1.png";
+resource.moon[0].src = "/images/planet/gray/1.png";
 
 function Game(blue, red){
   var canvas = document.getElementsByTagName('canvas')[0];
@@ -41,8 +31,7 @@ function Game(blue, red){
 
   //map
   this.node = _map.map(function(item, index){
-    console.log("length size is " + this.length);
-    var node = new Node(item.x, item.y, item.r, item.num, index, parseInt(Math.random()*this.length));
+    var node = new Node(item.x, item.y, item.r, item.num, index);
     node.team = item.team;
     return node;
   });
@@ -71,7 +60,7 @@ function Game(blue, red){
     blueWorker.postMessage(that.makeInfo("blue"));
     redWorker.postMessage(that.makeInfo("red"));
 
-    that.draw(ctx);
+    that.draw(ctx, dt);
 
     that.run(dt);
 
@@ -80,14 +69,14 @@ function Game(blue, red){
   setTimeout(loop, 0);
   this.initScore();
 }
-Game.prototype.draw = function(ctx){
+Game.prototype.draw = function(ctx, dt){
   var that = this;
   //clear all
   ctx.clearRect(0,0,800,600);
 
   //draw map
   this.node.forEach(function(node){
-    node.draw(ctx);
+    node.draw(ctx, dt);
   });
   //draw army
   this.army.forEach(function(army){
@@ -167,16 +156,20 @@ Game.prototype.matchResultCheck = function(red, blue){
 //need to be implemented
 };
 
-function Node(x, y, r, num, id, number){
+function Node(x, y, r, num, id){
   this.x = x;
   this.y = y;
   this.r = r;
   this.num = num || 0;
   this.id = id;
   this.regenCount = 0;
-  this.rotatePlanetIndex = 0; 
-  this.delayCount = 0;
-  this.gameRanId =  number;
+  
+  //for animation
+  var pick = Math.random();
+  this.type = pick < 0.6 ? pick < 0.3? "mars": "moon": "earth";
+  this.animateTime  = 0;
+  //rotationPeriod 1000ms ~ 5000ms
+  this.rotationPeriod = parseInt(Math.random()*4000) + 1000;
 }
 Node.prototype.run = function(dt){
   this.regenCount += dt * this.r;
@@ -186,7 +179,6 @@ Node.prototype.run = function(dt){
     if(!this.team){
       return;
     } 
-
     if(this.r > this.num){
       this.num += 1;
     } else if(this.r < this.num){
@@ -194,7 +186,7 @@ Node.prototype.run = function(dt){
     }
   }
 }
-Node.prototype.draw = function(ctx){
+Node.prototype.draw = function(ctx, dt){
   ctx.save();
 
   ctx.beginPath();
@@ -214,25 +206,21 @@ Node.prototype.draw = function(ctx){
   ctx.fillStyle = "white";
   ctx.fillText("" + this.num + "/" + this.r, this.x, this.y + this.r + 10);
 
-  if(this.id == this.gameRanId){
-    ctx.drawImage(resource.earth[this.rotatePlanetIndex], this.x-this.r*3.64, this.y-this.r*2.15, this.r*6, this.r*4);
-  }else if(this.team == "red"){
-    ctx.drawImage(resource.mars[0],this.x-this.r*3.64, this.y-this.r*2.15, this.r*6, this.r*4);
-  }else{
-    ctx.drawImage(resource.moon[0], this.x-this.r*3.64, this.y-this.r*2.15, this.r*6, this.r*4);
+  switch(this.type){
+    case "earth" :
+      var index = parseInt(this.animateTime/(this.rotationPeriod/resource.earth.length)) || 0;
+      ctx.drawImage(resource.earth[index], this.x-this.r*3.64, this.y-this.r*2.15, this.r*6, this.r*4);
+      break;
+    case "mars":
+      ctx.drawImage(resource.mars[0],this.x-this.r*3.64, this.y-this.r*2.15, this.r*6, this.r*4);
+      break;
+    case "moon":
+      ctx.drawImage(resource.moon[0], this.x-this.r*3.64, this.y-this.r*2.15, this.r*6, this.r*4);
+    break;
   }
-  //delay를 위한 카운트
-  this.delayCount = this.delayCount + 1;
+  this.animateTime += dt;
+  this.animateTime = this.animateTime % this.rotationPeriod;
 
-  if(this.delayCount == 25){
-    //25번 더한뒤 25가 되면 그대 프레임 변경
-    this.rotatePlanetIndex = this.rotatePlanetIndex + 1;
-    this.delayCount = 0;
-  }
-  if(this.rotatePlanetIndex == 7){
-    // 프레인 7개를 번갈아 가게 하기 위해 
-    this.rotatePlanetIndex = 0;
-  }
   ctx.restore();
 }
 Node.prototype.add = function(army){
