@@ -197,7 +197,7 @@ Node.prototype.draw = function(ctx, dt){
   
   if(this.team == "red") ctx.fillStyle = "rgba(255,0,0,0.8)";
   if(this.team == "blue") ctx.fillStyle = "rgba(0,0,255,0.8)";
-  if(!this.team) ctx.fillStyle = "rgba(200, 200,200,0.6)"
+  if(!this.team) ctx.fillStyle = "rgba(200, 200,200,0.6)";
   
   ctx.beginPath();
   var start = -Math.PI/2 + 0.3;

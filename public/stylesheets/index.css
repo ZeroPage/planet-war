@@ -264,7 +264,8 @@ section.game canvas {
 	border-radius : 10px;
 	margin-top : 10px;
 	background : rgba(0,0,0,.7);
-	background-image : url("/images/coord.png");
+	background-image: url("/images/background/star.png");
+	background-size: 100% 100%;
 }
 section.game #redScore {
 	color : red;
