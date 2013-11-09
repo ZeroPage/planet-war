@@ -188,19 +188,16 @@ Node.prototype.run = function(dt){
 }
 Node.prototype.draw = function(ctx, dt){
   ctx.save();
-
-  ctx.beginPath();
-  ctx.arc(this.x, this.y, this.num, 0, Math.PI*2, true);
-  ctx.closePath();
-  ctx.fillStyle = this.team || "gray";
   
-  //ctx.fill();
-
   ctx.beginPath();
   ctx.arc(this.x, this.y, this.r*1, 0, Math.PI*2, true);
   ctx.closePath();
   ctx.strokeStyle = "white";
   ctx.stroke();
+  
+  if(this.team == "red") ctx.fillStyle = "rgba(255,0,0,0.8)";
+  if(this.team == "blue") ctx.fillStyle = "rgba(0,0,255,0.8)";
+  if(!this.team) ctx.fillStyle = "rgba(200, 200,200,0.6)"
   
   ctx.beginPath();
   var start = -Math.PI/2 + 0.3;
@@ -220,13 +217,14 @@ Node.prototype.draw = function(ctx, dt){
   switch(this.type){
     case "earth" :
       var index = parseInt(this.animateTime/(this.rotationPeriod/resource.earth.length)) || 0;
-      ctx.drawImage(resource.earth[index], this.x-this.r*3.64, this.y-this.r*2.15, this.r*6, this.r*4);
+      var img = resource.earth[index];
+      ctx.drawImage(img, this.x - this.r, this.y-this.r, this.r*2, this.r*2);
       break;
     case "mars":
-      ctx.drawImage(resource.mars[0],this.x-this.r*3.64, this.y-this.r*2.15, this.r*6, this.r*4);
+      ctx.drawImage(resource.mars[0], this.x - this.r, this.y-this.r, this.r*2, this.r*2);
       break;
     case "moon":
-      ctx.drawImage(resource.moon[0], this.x-this.r*3.64, this.y-this.r*2.15, this.r*6, this.r*4);
+      ctx.drawImage(resource.moon[0], this.x - this.r, this.y-this.r, this.r*2, this.r*2);
     break;
   }
   this.animateTime += dt;
