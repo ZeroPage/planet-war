@@ -28,8 +28,10 @@ for(var i = 0; i< 3; i++){
 	resource.settle[i].src = "/images/settles/settle_"+(i+1)+".png";
 }
 
-resource.otherPlanet[0] = new Image();
-resource.otherPlanet[0].src = "/images/planet/other/1.png";
+for(var i = 0;i < 2;i++){
+	resource.otherPlanet[i] = new Image();
+	resource.otherPlanet[i].src = "/images/planet/other/"+(i+1)+".png";
+}
 
 function Game(blue, red){
   var canvas = document.getElementsByTagName('canvas')[0];
@@ -126,7 +128,7 @@ Game.prototype.run = function(dt){
     }
   });
   this.updateScore(red, blue);
-  return this.matchResultCheck(red,blue);
+  return this.matchResultCheck(red, blue, dt);
 }
 Game.prototype.command = function(team, data){
   if(data.from == data.to)
@@ -167,11 +169,11 @@ Game.prototype.updateScore = function(red, blue){
   this.redScore.innerText = red;
   this.blueScore.innerText = blue;
 };
-Game.prototype.matchResultCheck = function(red, blue){
+Game.prototype.matchResultCheck = function(red, blue, dt){
   if(globalStartTime+5*60*1000<Date.now()){
     console.log("Time over, draw");
     //Draw
-	ajax(this.redId, this.blueId, null, true);
+	end(this.redId, this.blueId, true);
     return "draw";
   }
   var redPlanetNum = 0;
@@ -185,11 +187,11 @@ Game.prototype.matchResultCheck = function(red, blue){
   });
   if(redPlanetNum==0&&red==0){
     console.log("Blue Wins!");
-	ajax(this.blueId, this.redId, null);
+	end(this.blueId, this.redId);
     return "blue";
   }else if(bluePlanetNum==0&&blue==0){
     console.log("Red Wins!");
-	ajax(this.redId, this.blueId, null);
+	end(this.redId, this.blueId);
     return "red";
   }//자기 행성이 없으면서 스코어도 없으면 GG
 };
@@ -201,7 +203,8 @@ function Node(x, y, r, num, id){
   this.num = num || 0;
   this.id = id;
   this.regenCount = 0;
-  
+  this.index1 = parseInt(Math.random()*10)%2;
+  //alert(this.index1); 
   //for animation
   var pick = Math.random();
   if(pick < 0.3){
@@ -220,6 +223,7 @@ function Node(x, y, r, num, id){
   //rotationPeriod 1000ms ~ 5000ms
   this.rotationPeriod = parseInt(Math.random()*4000) + 4000;
 }
+
 Node.prototype.run = function(dt){
   this.regenCount += dt * this.r;
   if(this.regenCount > 50000){
@@ -289,7 +293,7 @@ Node.prototype.draw = function(ctx, dt){
       	ctx.drawImage(img, this.x - this.r, this.y-this.r, this.r*2, this.r*2);
       	break;
     case "other":
-    	ctx.drawImage(resource.otherPlanet[0], this.x-(this.r/2+5), this.y-(this.r/2+5), this.r+10, this.r+10);
+    	ctx.drawImage(resource.otherPlanet[this.index1], this.x-(this.r/2+5), this.y-(this.r/2+5), this.r+10, this.r+10);
     break;
   }
   this.animateTime += dt;
@@ -412,10 +416,28 @@ function ajax(winnerId, loserId, callback, isDraw){
   var data = "winner="+ winnerId + "&loser=" + loserId + (isDraw ? "&draw=true" : "");
   $ajax.send(data);
   $ajax.addEventListener("readystatechange", function(){
-	console.log("saving..");
-  	if ($ajax.readystate == 4){
-	  console.log("ok");
+	console.log("saving..", $ajax.readyState);
+  	if ($ajax.readyState == 4){
+	  console.log("saved");
+	  callback && callback();
 	}
   });
+}
+
+function end(winner, loser, isDraw){
+	var $endScreen = document.getElementById("endScreen");
+	var $saveProgress = document.getElementById("saveProgress");
+	var $backBtn = $endScreen.getElementsByTagName("a")[0];
+	var $result = document.getElementById("result");
+	if(isDraw)
+		$result.innerHTML = "Draw!";
+	else
+	    $result.innerHTML = winner + " Win!";
+	
+	$endScreen.style.visibility = "visible";
+	ajax(winner, loser, function(){
+		$saveProgress.innerHTML = "saved!";
+		$backBtn.style.visibility = "visible";
+	}, isDraw);
 }
 //gittest
