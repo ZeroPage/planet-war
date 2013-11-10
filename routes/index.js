@@ -122,3 +122,14 @@ exports.setPrimaryCode = function(req,res){
     res.redirect("/");
   });
 }
+
+exports.deleteCode = function(req,res){
+  var codeName = req.param("codeName");
+  user.deleteCode(req.session.user, codeName, function(err){
+    if(err)
+      req.flash("alert", "error" + err);
+    else    
+      req.flash("msg", "Successfully deleted the \""+codeName+"\""+" code.");
+    res.redirect("/");
+  });
+}
