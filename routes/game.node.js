@@ -20,9 +20,9 @@ exports.static = function(req, res){
 }
 exports.score = function(req, res){
   if(!req.session.user){
-    res.end("fail", "uft8");
+    res.send(200, "fail");
   }
   user.addScore(req.param("winner"), req.param("loser"), function(){
-    res.end("ok", "utf8");//
+    res.send(200, "ok");
   }, req.param("draw"));
 }

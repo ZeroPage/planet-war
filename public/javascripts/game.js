@@ -33,6 +33,9 @@ function Game(blue, red){
   var blueWorker = new Worker("/code/" + blue);
   var redWorker = new Worker("/code/" + red);
   
+  this.redId = red.substr(0, red.indexOf("/"));;
+  this.blueId = blue.substr(0, blue.indexOf("/"));;
+  
   var PlanetframNum = 1;
 
   var that = this;
@@ -70,9 +73,8 @@ function Game(blue, red){
 
     that.draw(ctx, dt);
 
-    that.run(dt);
-
-    setTimeout(loop, 0);
+    if (!that.run(dt))
+      setTimeout(loop, 0);
   }
   setTimeout(loop, 0);
   this.initScore();
@@ -120,7 +122,7 @@ Game.prototype.run = function(dt){
     }
   });
   this.updateScore(red, blue);
-  this.matchResultCheck(red,blue);
+  return this.matchResultCheck(red,blue);
 }
 Game.prototype.command = function(team, data){
   if(data.from == data.to)
@@ -165,6 +167,8 @@ Game.prototype.matchResultCheck = function(red, blue){
   if(globalStartTime+5*60*1000<Date.now()){
     console.log("Time over, draw");
     //Draw
+	ajax(this.redId, this.blueId, null, true);
+    return "draw";
   }
   var redPlanetNum = 0;
   var bluePlanetNum = 0;
@@ -177,13 +181,13 @@ Game.prototype.matchResultCheck = function(red, blue){
   });
   if(redPlanetNum==0&&red==0){
     console.log("Blue Wins!");
-    //blue win
+	ajax(this.blueId, this.redId, null);
+    return "blue";
   }else if(bluePlanetNum==0&&blue==0){
     console.log("Red Wins!");
-    //red win
+	ajax(this.redId, this.blueId, null);
+    return "red";
   }//자기 행성이 없으면서 스코어도 없으면 GG
-  
-  
 };
 
 function Node(x, y, r, num, id){
@@ -199,7 +203,7 @@ function Node(x, y, r, num, id){
   this.type = pick < 0.6 ? pick < 0.3? "mars": "moon": "earth";
   this.animateTime  = 0;
   //rotationPeriod 1000ms ~ 5000ms
-  this.rotationPeriod = parseInt(Math.random()*4000) + 1000;
+  this.rotationPeriod = parseInt(Math.random()*4000) + 4000;
 }
 Node.prototype.run = function(dt){
   this.regenCount += dt * this.r;
@@ -364,8 +368,6 @@ Army.prototype.draw  = function(ctx){
   else ctx.drawImage(resource.settle[2], this.x - (size+20)/2, this.y - (size+20)/2, size+20, size+20);
   ctx.restore();
 
-  
-
   ctx.fillStyle = "white";
   ctx.textAlign = "center";
   ctx.fillText(this.num, this.x, this.y + this.num + 20);
@@ -383,5 +385,19 @@ Army.prototype.info = function(){
 }
 Army.prototype.check = function(){
   return ((this.to.x - this.x) * this.vx <= 0 && (this.to.y - this.y) * this.vy <= 0);
+}
+
+function ajax(winnerId, loserId, callback, isDraw){
+  var $ajax = new XMLHttpRequest();
+  $ajax.open("post", "/score", true);
+  $ajax.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+  var data = "winner="+ winnerId + "&loser=" + loserId + (isDraw ? "&draw=true" : "");
+  $ajax.send(data);
+  $ajax.addEventListener("readystatechange", function(){
+	console.log("saving..");
+  	if ($ajax.readystate == 4){
+	  console.log("ok");
+	}
+  });
 }
 //gittest
