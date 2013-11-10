@@ -200,16 +200,25 @@ Node.prototype.draw = function(ctx, dt){
   if(!this.team) ctx.fillStyle = "rgba(200, 200,200,0.6)";
   
   ctx.beginPath();
-  var start = -Math.PI/2 + 0.3;
-  var end = (this.num/this.r) * (Math.PI*2-0.3);
+  var start = 0//-Math.PI/2 + 0.3;
+  var end = (this.num > this.r ? 1 : this.num/this.r) * (Math.PI*3/2)//(Math.PI*2-0.6);
+  
   var space = this.r * 1.1 > this.r + 5 ? this.r * 1.1 : this.r + 5;
   ctx.arc(this.x, this.y, space, start, start+end, false);
   ctx.arc(this.x, this.y, space + 5, start+end, start, true);
   ctx.closePath();
   ctx.fill();
   
+  //over
+  if(this.num > this.r){
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, space +5, -(Math.PI/2)-0.3, -(Math.PI/2)-0.0, false);
+    ctx.arc(this.x, this.y, space+10, -(Math.PI/2)-0.0, -(Math.PI/2)-0.3, true);
+    ctx.closePath();
+    ctx.fillStyle = "green";
+    ctx.fill();
+  }
   
-
   ctx.textAlign = "center";
   ctx.fillStyle = "white";
   ctx.fillText("" + this.num + "/" + this.r, this.x, this.y + this.r + 10);
@@ -295,6 +304,16 @@ Army.prototype.run  = function(dt){
 Army.prototype.draw  = function(ctx, img){
   ctx.save();
   
+  ctx.beginPath();
+  ctx.arc(this.x, this.y, this.num + 10, 0, Math.PI*2,true);
+  ctx.closePath();
+  //ctx.strokeStyle = this.team;
+  //ctx.stroke();
+  if(this.team == "red") ctx.fillStyle = "rgba(255,0,0,0.2)";
+  if(this.team == "blue") ctx.fillStyle = "rgba(0,0,255,0.4)";
+  if(!this.team) ctx.fillStyle = "rgba(200, 200,200,0.2)";
+  ctx.fill();
+  
   ctx.save();
   
   ctx.translate(this.x, this.y);
@@ -303,17 +322,12 @@ Army.prototype.draw  = function(ctx, img){
   ctx.rotate(angle);
   ctx.translate(-this.x, -this.y);
   
-  var size = this.num + 10;
+  var size = this.num + 20;
   ctx.drawImage(img, this.x - size/2, this.y - size/2, size, size);
   
   ctx.restore();
 
-  ctx.beginPath();
-  ctx.arc(this.x, this.y, this.num + 10, 0, Math.PI*2,true);
-  ctx.closePath();
-  ctx.strokeStyle = this.team;
-
-  ctx.stroke();
+  
 
   ctx.fillStyle = "white";
   ctx.textAlign = "center";
