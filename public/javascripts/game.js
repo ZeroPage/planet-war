@@ -8,7 +8,7 @@ var resource = {
 }
 
 //earth와 관련된 모든 리소스를 담고, 순서대로 출력
-for(var i =0; i < 7; i++){
+for(var i =0; i < 17; i++){
   	resource.earth[i] = new Image();
   	resource.earth[i].src = "/images/planet/blue/"+(i+1)+".png";
 }
@@ -23,12 +23,12 @@ for(var i = 0; i< 10; i++){
 	resource.moon[i].src = "/images/planet/gray/"+(i+1)+".png";
 }
 
-for(var i = 0; i< 3; i++){
+for(var i = 0; i< 4; i++){
 	resource.settle[i] = new Image();
 	resource.settle[i].src = "/images/settles/settle_"+(i+1)+".png";
 }
 
-for(var i = 0;i < 2;i++){
+for(var i = 0;i < 3;i++){
 	resource.otherPlanet[i] = new Image();
 	resource.otherPlanet[i].src = "/images/planet/other/"+(i+1)+".png";
 }
@@ -206,27 +206,29 @@ function Node(self, id, numOfNode){
   this.team = self.team;
   this.id = id;
   this.regenCount = 0;
-  this.index1 = parseInt(Math.random()*10)%2;
-  
+
+  this.index1 = parseInt(Math.random()*10)%3; 
   
   //for cooldown
   this.cooldown = [];
   for(var i = 0; i < numOfNode; i++){
 	this.cooldown[i] = 1000;
   }
-  
+
   //for animation
   var pick = Math.random();
-  if(pick < 0.3){
+  if(pick < 0.5){
   	this.type = "mars";
-  }else if(pick < 0.6){
-  	this.type = "moon";
-  }else{
+  }else {
   	this.type = "earth";
   }
 
-  if(pick< 0.5 && this.r <= 20){
+  if(this.r <= 15){
   	this.type = "other";
+  }
+
+  if(this.r>15 && this.r<30){
+  	this.type = "moon";
   }
   //this.type = pick < 0.6 ? pick < 0.3 ? "mars": "moon": "earth" : "other";
   this.animateTime  = 0;
@@ -409,6 +411,7 @@ Army.prototype.draw  = function(ctx){
   var size = this.num + 20;
   if(this.num < 5) ctx.drawImage(resource.settle[0], this.x - size/2, this.y - size/2, size, size);
   else if(this.num < 10) ctx.drawImage(resource.settle[1], this.x - (size+10)/2, this.y - (size+10)/2, size+10, size+10);
+  else if(this.num == 42) ctx.drawImage(resource.settle[3], this.x - (size+10)/2, this.y - (size+10)/2, size+10, size+10);
   else ctx.drawImage(resource.settle[2], this.x - (size+20)/2, this.y - (size+20)/2, size+20, size+20);
   ctx.restore();
 
