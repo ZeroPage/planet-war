@@ -51,11 +51,12 @@ function Game(blue, red){
   }
 
   var dt = 0;
-  var ct = Date.now();
+  var curTime = Date.now();
+  var globalStartTime = Date.now();
   function loop(){
-    var oldt = ct;
-    ct = Date.now();
-    dt = ct - oldt;
+    var oldTime = curTime;
+    curTime = Date.now();
+    dt = curTime - oldTime;
    
     blueWorker.postMessage(that.makeInfo("blue"));
     redWorker.postMessage(that.makeInfo("red"));
@@ -153,7 +154,25 @@ Game.prototype.updateScore = function(red, blue){
   this.blueScore.innerText = blue;
 };
 Game.prototype.matchResultCheck = function(red, blue){
-//need to be implemented
+  if(globalStartTime+5*60*1000<curTime){
+    //Draw
+  }
+  var redPlanetNum = 0;
+  var bluePlanetNum = 0;
+  this.node.forEach(function(item){
+    if(item.team == "red"){
+      redPlanetNum++;
+    }else if(item.team == "blue"){
+      bluePlanetNum++;
+    }
+  });
+  if(redPlanetNum==0&&red==0){
+    //red win
+  }else if(bluePlanetNum==0&&blue==0){
+    //blue win
+  }//자기 행성이 없으면서 스코어도 없으면 GG
+  
+  
 };
 
 function Node(x, y, r, num, id){
