@@ -3,16 +3,23 @@ extends layout
 block content
   form(action="game", method="GET")
     section.row.match
-      article#map
+      article.ai#map
         h1 Map List
         ul
-          -for(var i = 0; i < maps.length; i++)
-            li 
-              if(i == 0)
-                input(type="radio", name="map", value="#{maps[i]}" checked)
-              else
-                input(type="radio", name="map", value="#{maps[i]}")
-              label #{maps[i]}
+          table
+            tr
+              th(rowspan="2")
+              th(rowspan="2") name
+            tr
+            -for(var i = 0; i < maps.length; i++)
+              tr
+                td 
+                  if(i == 0)
+                    input(type="radio", name="map", value="#{maps[i]}" checked)
+                  else
+                    input(type="radio", name="map", value="#{maps[i]}")
+                td
+                  label #{maps[i]}
       div
         article.ai#my_ai
           fieldset
