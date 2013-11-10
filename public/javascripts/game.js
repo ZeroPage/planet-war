@@ -405,7 +405,7 @@ Army.prototype.draw  = function(ctx){
   else if(this.num < 10)
     ctx.arc(this.x, this.y, this.num + 15, 0, Math.PI*2,true);
   else if(this.num == 42)
-    ctx.arc(this.x, this.y, 150, 0, Math.PI*2,true);
+    ctx.arc(this.x, this.y, 100, 0, Math.PI*2,true);
   else
     ctx.arc(this.x, this.y, this.num + 20, 0, Math.PI*2,true);
   ctx.closePath();
@@ -437,7 +437,7 @@ Army.prototype.draw  = function(ctx){
   else if(this.num < 10)
     ctx.drawImage(resource.settle[1], this.x - (size+10)/2, this.y - (size+10)/2, size+10, size+10);
   else if(this.num == 42)
-    ctx.drawImage(resource.settle[3], this.x - (250)/2, this.y - (250)/2, 250, 250);
+    ctx.drawImage(resource.settle[3], this.x - (150)/2, this.y - (150)/2, 150, 150);
   else
     ctx.drawImage(resource.settle[2], this.x - (size+20)/2, this.y - (size+20)/2, size+20, size+20);
   ctx.restore();
