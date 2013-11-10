@@ -48,8 +48,7 @@ function Game(blue, red){
 
   //map
   this.node = _map.map(function(item, index){
-    var node = new Node(item.x, item.y, item.r, item.num, index);
-    node.team = item.team;
+    var node = new Node(item, index);
     return node;
   });
 
@@ -144,9 +143,12 @@ Game.prototype.command = function(team, data){
   if(from.num < data.send){
     return;
   }
-
-  var to = this.node[data.to];
+  if(from.cooldown[data.to] < 1000){
+	return;
+  }
+  from.cooldown[data.to] = 0;
   
+  var to = this.node[data.to];
   this.army.push(new Army(from, to, data.send, team));
 }
 Game.prototype.makeInfo = function(team){
@@ -196,15 +198,23 @@ Game.prototype.matchResultCheck = function(red, blue, dt){
   }//자기 행성이 없으면서 스코어도 없으면 GG
 };
 
-function Node(x, y, r, num, id){
-  this.x = x;
-  this.y = y;
-  this.r = r;
-  this.num = num || 0;
+function Node(self, id, numOfNode){
+  this.x = self.x;
+  this.y = self.y;
+  this.r = self.r;
+  this.num = self.num || 0;
+  this.team = self.team;
   this.id = id;
   this.regenCount = 0;
   this.index1 = parseInt(Math.random()*10)%2;
-  //alert(this.index1); 
+  
+  
+  //for cooldown
+  this.cooldown = [];
+  for(var i = 0; i < numOfNode; i++){
+	this.cooldown[i] = 1000;
+  }
+  
   //for animation
   var pick = Math.random();
   if(pick < 0.3){
@@ -220,7 +230,7 @@ function Node(x, y, r, num, id){
   }
   //this.type = pick < 0.6 ? pick < 0.3 ? "mars": "moon": "earth" : "other";
   this.animateTime  = 0;
-  //rotationPeriod 1000ms ~ 5000ms
+  //rotationPeriod 4000ms ~ 8000ms
   this.rotationPeriod = parseInt(Math.random()*4000) + 4000;
 }
 
@@ -238,10 +248,16 @@ Node.prototype.run = function(dt){
       this.num -= 1;
     }
   }
+  
+  for(var i =0; i < this.cooldown.length; i++){
+	this.cooldown[i] += dt ;
+	if(this.cooldown[i] > 1000) this.cooldown[i] = 1000;
+  }
 }
 Node.prototype.draw = function(ctx, dt){
   ctx.save();
   
+  //for number
   if(this.team == "red") ctx.fillStyle = "rgba(255,0,0,0.8)";
   if(this.team == "blue") ctx.fillStyle = "rgba(0,0,255,0.8)";
   if(!this.team) ctx.fillStyle = "rgba(200, 200,200,0.6)";
@@ -255,7 +271,7 @@ Node.prototype.draw = function(ctx, dt){
   ctx.arc(this.x, this.y, space + 5, start+end, start, true);
   ctx.closePath();
   ctx.fill();
-  
+
   //over
   if(this.num > this.r){
     ctx.beginPath();
@@ -265,7 +281,19 @@ Node.prototype.draw = function(ctx, dt){
     ctx.fillStyle = "green";
     ctx.fill();
   }
+
+  //for cooldown
+  ctx.beginPath();
+  var start = -Math.PI/2;
+  var end = this.cooldown.reduce(min, 1000)/1000 * Math.PI * 2;
   
+  ctx.arc(this.x, this.y, space+5, start, start+end, false);
+  ctx.arc(this.x, this.y, space+10, start+end, start, true);
+  ctx.closePath();
+  ctx.fillStyle = "rgba(128,128,128,0.4)";
+  ctx.fill();
+  
+  //text
   ctx.textAlign = "center";
   ctx.fillStyle = "white";
   ctx.fillText("" + this.num + "/" + this.r, this.x, this.y + this.r + 10);
@@ -434,4 +462,6 @@ function end(winner, loser, isDraw){
 		$backBtn.style.visibility = "visible";
 	}, isDraw);
 }
-//gittest
+function min(prev, curr){
+	return prev < curr ? prev : curr;
+}
