@@ -16,7 +16,7 @@ for(var i = 0; i < 18; i++){
   	resource.mars[i].src = "/images/planet/red/"+(i+1)+".png";
 }
 
-for(var i = 0; i< 11; i++){
+for(var i = 0; i< 10; i++){
 	resource.moon[i] = new Image();
 	resource.moon[i].src = "/images/planet/gray/"+(i+1)+".png";
 }
