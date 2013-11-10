@@ -8,6 +8,11 @@ block content
       span: /
       span#blueScore= 0
       script(src="/maps/#{map}.js")
+    div#endScreen
+      div 
+        h2#result
+        p#saveProgress saving....
+        a.btn(href="/") Back To Lobby
   script.
     var game = new Game("#{blue}", "#{red}");
 
