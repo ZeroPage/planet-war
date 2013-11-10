@@ -3,7 +3,8 @@ var resource = {
   earth : [],
   mars : [],
   moon : [],
-  settle : []
+  settle : [],
+  otherPlanet : []
 }
 
 //earth와 관련된 모든 리소스를 담고, 순서대로 출력
@@ -26,6 +27,9 @@ for(var i = 0; i< 3; i++){
 	resource.settle[i] = new Image();
 	resource.settle[i].src = "/images/settles/settle_"+(i+1)+".png";
 }
+
+resource.otherPlanet[0] = new Image();
+resource.otherPlanet[0].src = "/images/planet/other/1.png";
 
 function Game(blue, red){
   var canvas = document.getElementsByTagName('canvas')[0];
@@ -200,7 +204,18 @@ function Node(x, y, r, num, id){
   
   //for animation
   var pick = Math.random();
-  this.type = pick < 0.6 ? pick < 0.3? "mars": "moon": "earth";
+  if(pick < 0.3){
+  	this.type = "mars";
+  }else if(pick < 0.6){
+  	this.type = "moon";
+  }else{
+  	this.type = "earth";
+  }
+
+  if(pick< 0.5 && this.r <= 20){
+  	this.type = "other";
+  }
+  //this.type = pick < 0.6 ? pick < 0.3 ? "mars": "moon": "earth" : "other";
   this.animateTime  = 0;
   //rotationPeriod 1000ms ~ 5000ms
   this.rotationPeriod = parseInt(Math.random()*4000) + 4000;
@@ -272,6 +287,9 @@ Node.prototype.draw = function(ctx, dt){
     	var index = parseInt(this.animateTime/(this.rotationPeriod/resource.moon.length)) || 0;
     	var img = resource.moon[index];
       	ctx.drawImage(img, this.x - this.r, this.y-this.r, this.r*2, this.r*2);
+      	break;
+    case "other":
+    	ctx.drawImage(resource.otherPlanet[0], this.x-(this.r/2+5), this.y-(this.r/2+5), this.r+10, this.r+10);
     break;
   }
   this.animateTime += dt;
