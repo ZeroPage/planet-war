@@ -59,6 +59,16 @@ exports.setPrimaryCode = function(userName, codeName, callback){
   users[userName].primaryCode = codeName;
   fs.writeFile("./users.json", JSON.stringify(users, null, 4), {encode : "utf8"}, callback);
 }
+exports.deleteCode = function(userName,codeName,callback){
+  var users = readUsers();
+  if(users[userName].primaryCode == codeName){
+    delete users[userName].primaryCode;
+    //priCode도 삭제해야함.
+  }
+  fs.writeFile("./users.json", JSON.stringify(users, null, 4), {encode : "utf8"}, function(err){
+    fs.unlink("./codes/"+userName+"/"+codeName+".js",callback);
+  });
+}
 
 exports.addScore = function(winnerId, loserId, callback, isDraw){
   if(winnerId == loserId) return callback();

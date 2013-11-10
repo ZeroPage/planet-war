@@ -7,16 +7,23 @@ var SAVE_PATH = "codes/";
 exports.upload = function(req, res){
   var codeFile = req.files.code;
 
-  codefs.makeDir(req.session.user + "/",null);
-
-  codefs.save(req.session.user,codeFile.name,codeFile,function(err){
-    console.log(err);
-    if(err)
-      req.flash("alert", "fail to save code in server");
-    else
-      req.flash("msg", "Successfully uploaded the code");
+  if(codeFile.name==null||codeFile.name==""){
+    req.flash("alert", "Fail to save code. Please select your code file before upload.");
     res.redirect("/");
+    return;
+  }
+  codefs.makeDir(req.session.user + "/",function(err){
+    codefs.save(req.session.user,codeFile.name,codeFile,function(err){
+      console.log(err);
+      if(err)
+       req.flash("alert", "Fail to save code in server");
+      else
+      req.flash("msg", "Successfully uploaded the code");
+      res.redirect("/");
+    });
   });
+
+  
 }
 
 exports.loadMySlotList = function(userName, callback){

@@ -2,22 +2,30 @@ var globalStartTime = Date.now();
 var resource = {
   earth : [],
   mars : [],
-  moon : []
+  moon : [],
+  settle : []
 }
 
 //earth와 관련된 모든 리소스를 담고, 순서대로 출력
 for(var i =0; i < 7; i++){
-  resource.earth[i] = new Image();
-  resource.earth[i].src = "/images/planet/blue/"+(i+1)+".png";
+  	resource.earth[i] = new Image();
+  	resource.earth[i].src = "/images/planet/blue/"+(i+1)+".png";
 }
 
 for(var i = 0; i < 18; i++){
-  resource.mars[i] = new Image();
-  resource.mars[i].src = "/images/planet/red/"+(i+1)+".png";
+  	resource.mars[i] = new Image();
+  	resource.mars[i].src = "/images/planet/red/"+(i+1)+".png";
 }
 
-resource.moon[0] = new Image();
-resource.moon[0].src = "/images/planet/gray/1.png";
+for(var i = 0; i< 10; i++){
+	resource.moon[i] = new Image();
+	resource.moon[i].src = "/images/planet/gray/"+(i+1)+".png";
+}
+
+for(var i = 0; i< 2; i++){
+	resource.settle[i] = new Image();
+	resource.settle[i].src = "/images/settles/settle_"+(i+1)+".png";
+}
 
 function Game(blue, red){
   var canvas = document.getElementsByTagName('canvas')[0];
@@ -29,8 +37,6 @@ function Game(blue, red){
   this.blueId = blue.substr(0, blue.indexOf("/"));;
   
   var PlanetframNum = 1;
-  this.spaceShip = new Image();
-  this.spaceShip.src = 'images/settle_1.png';
 
   var that = this;
 
@@ -84,7 +90,7 @@ Game.prototype.draw = function(ctx, dt){
   });
   //draw army
   this.army.forEach(function(army){
-    army.draw(ctx, that.spaceShip);
+    army.draw(ctx);
   });
 }
 Game.prototype.run = function(dt){
@@ -263,7 +269,9 @@ Node.prototype.draw = function(ctx, dt){
       	ctx.drawImage(img, this.x - this.r, this.y-this.r, this.r*2, this.r*2);
       	break;
     case "moon":
-      ctx.drawImage(resource.moon[0], this.x - this.r, this.y-this.r, this.r*2, this.r*2);
+    	var index = parseInt(this.animateTime/(this.rotationPeriod/resource.moon.length)) || 0;
+    	var img = resource.moon[index];
+      	ctx.drawImage(img, this.x - this.r, this.y-this.r, this.r*2, this.r*2);
     break;
   }
   this.animateTime += dt;
@@ -331,11 +339,12 @@ Army.prototype.run  = function(dt){
   }
   return true;
 }
-Army.prototype.draw  = function(ctx, img){
+Army.prototype.draw  = function(ctx){
   ctx.save();
   
   ctx.beginPath();
-  ctx.arc(this.x, this.y, this.num + 10, 0, Math.PI*2,true);
+  if(this.num < 5) ctx.arc(this.x, this.y, this.num + 10, 0, Math.PI*2,true);
+  else ctx.arc(this.x, this.y, this.num + 15, 0, Math.PI*2,true);
   ctx.closePath();
   //ctx.strokeStyle = this.team;
   //ctx.stroke();
@@ -353,8 +362,8 @@ Army.prototype.draw  = function(ctx, img){
   ctx.translate(-this.x, -this.y);
   
   var size = this.num + 20;
-  ctx.drawImage(img, this.x - size/2, this.y - size/2, size, size);
-  
+  if(this.num < 5) ctx.drawImage(resource.settle[0], this.x - size/2, this.y - size/2, size, size);
+  else ctx.drawImage(resource.settle[1], this.x - (size+10)/2, this.y - (size+10)/2, size+10, size+10);
   ctx.restore();
 
   ctx.fillStyle = "white";

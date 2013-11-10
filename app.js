@@ -37,6 +37,7 @@ app.post("/code", routes.auth, routes.code.upload);
 app.get("/code/:id/:codeName", routes.code.loadRequestedFile);
 app.get("/game", routes.game.static);
 app.get("/code/primary", routes.auth, routes.setPrimaryCode);
+app.get("/code/delete", routes.auth, routes.deleteCode);
 app.get("/help", routes.help)
 app.get("/match", routes.auth, routes.match)
 app.get("/match/random", routes.auth, routes.randomMatch);

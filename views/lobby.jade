@@ -38,7 +38,8 @@ block content
               td
                 a(href="/code/primary?codeName=" + myCodes[i])
                   button.btn Set Primary
-                button.btn DELETE
+                a(href="/code/delete?codeName=" + myCodes[i])
+                  button.btn DELETE
                 button.btn
                   span.icon.save
                   span &nbsp;Save
