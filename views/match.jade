@@ -8,7 +8,10 @@ block content
         ul
           -for(var i = 0; i < maps.length; i++)
             li 
-              input(type="radio", name="map", value="#{maps[i]}")
+              if(i == 0)
+                input(type="radio", name="map", value="#{maps[i]}" checked)
+              else
+                input(type="radio", name="map", value="#{maps[i]}")
               label #{maps[i]}
       div
         article.ai#my_ai
@@ -26,7 +29,10 @@ block content
               -for(var i = 0; i < myCodes.length; i++)
                 tr
                   td
-                    input(type="radio", name="blueCode", value="#{myCodes[i]}")
+                    if(i == 0)
+                      input(type="radio", name="blueCode", value="#{myCodes[i]}" checked)
+                    else
+                      input(type="radio", name="blueCode", value="#{myCodes[i]}")
                   td
                     label #{myCodes[i]}
                   td 
@@ -51,11 +57,14 @@ block content
               -for(var i = 0; i < other.length; i++)
                 tr
                   td
-                    input(type="radio", name="redName", value="#{other[i]}")
+                    if(i == 0)
+                      input(type="radio", name="redName", value="#{other[i].name}" checked)
+                    else
+                      input(type="radio", name="redName", value="#{other[i].name}")
                   td
-                    label #{other[i]}
-                  td 
-                  td
-                  td
+                    label #{other[i].name}
+                  td #{other[i].score.win}
+                  td #{other[i].score.draw}
+                  td #{other[i].score.lose}
           input(name="blueName", type="hidden", value="#{user}")
         button.btn FIGHT

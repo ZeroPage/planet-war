@@ -16,4 +16,13 @@ exports.static = function(req, res){
     red : redName + "/" + redCode,
     map : req.param("map")
   });
+
+}
+exports.score = function(req, res){
+  if(!req.session.user){
+    res.end("fail", "uft8");
+  }
+  user.addScore(req.param("winner"), req.param("loser"), function(){
+    res.end("ok", "utf8");//
+  }, req.param("draw"));
 }

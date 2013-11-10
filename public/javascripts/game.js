@@ -43,7 +43,7 @@ function Game(blue, red){
   blueWorker.onmessage = function(msg){
     if(msg.data.debug)
       console.log(msg.data.debug);
-    else 
+    else
       that.command("blue", msg.data);
   }
   redWorker.onmessage = function(msg){

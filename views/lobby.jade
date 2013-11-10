@@ -17,9 +17,9 @@ block content
                 th LOSE
             tbody
               tr
-                td 20
-                td 1
-                td 30
+                td #{myScore.win}
+                td #{myScore.draw}
+                td #{myScore.lose}
       a.btn(href="/match/random") Random Matching
     article
       if (flash.msg)
