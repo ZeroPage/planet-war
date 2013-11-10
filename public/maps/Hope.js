@@ -1,5 +1,4 @@
 var _map = (function (){
-var _map = (function (){
   var base = [
     { x: 50, y : 50, r : 30, num : 29, team : "red"},
     { x: 800 - 50, y : 600 - 50, r : 30, num : 29, team : "blue"}
