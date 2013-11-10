@@ -242,12 +242,6 @@ Node.prototype.run = function(dt){
 Node.prototype.draw = function(ctx, dt){
   ctx.save();
   
-  ctx.beginPath();
-  ctx.arc(this.x, this.y, this.r*1, 0, Math.PI*2, true);
-  ctx.closePath();
-  ctx.strokeStyle = "white";
-  ctx.stroke();
-  
   if(this.team == "red") ctx.fillStyle = "rgba(255,0,0,0.8)";
   if(this.team == "blue") ctx.fillStyle = "rgba(0,0,255,0.8)";
   if(!this.team) ctx.fillStyle = "rgba(200, 200,200,0.6)";
