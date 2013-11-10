@@ -1,8 +1,10 @@
+var globalStartTime = Date.now();
 var resource = {
   earth : [],
   mars : [],
   moon : []
 }
+
 //earth와 관련된 모든 리소스를 담고, 순서대로 출력
 for(var i =0; i < 7; i++){
   resource.earth[i] = new Image();
@@ -52,7 +54,6 @@ function Game(blue, red){
 
   var dt = 0;
   var curTime = Date.now();
-  var globalStartTime = Date.now();
   function loop(){
     var oldTime = curTime;
     curTime = Date.now();
@@ -113,6 +114,7 @@ Game.prototype.run = function(dt){
     }
   });
   this.updateScore(red, blue);
+  this.matchResultCheck(red,blue);
 }
 Game.prototype.command = function(team, data){
   if(data.from == data.to)
@@ -154,7 +156,8 @@ Game.prototype.updateScore = function(red, blue){
   this.blueScore.innerText = blue;
 };
 Game.prototype.matchResultCheck = function(red, blue){
-  if(globalStartTime+5*60*1000<curTime){
+  if(globalStartTime+5*60*1000<Date.now()){
+    console.log("Time over, draw");
     //Draw
   }
   var redPlanetNum = 0;
@@ -167,9 +170,11 @@ Game.prototype.matchResultCheck = function(red, blue){
     }
   });
   if(redPlanetNum==0&&red==0){
-    //red win
-  }else if(bluePlanetNum==0&&blue==0){
+    console.log("Blue Wins!");
     //blue win
+  }else if(bluePlanetNum==0&&blue==0){
+    console.log("Red Wins!");
+    //red win
   }//자기 행성이 없으면서 스코어도 없으면 GG
   
   
