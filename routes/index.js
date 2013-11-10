@@ -135,3 +135,8 @@ exports.deleteCode = function(req,res){
     res.redirect("/");
   });
 }
+
+exports.rank = function(req, res){
+  var rank = user.getRank();
+  res.render("rank", { title : "Rank", rank : rank});
+}
