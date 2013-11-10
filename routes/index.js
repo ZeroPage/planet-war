@@ -103,7 +103,9 @@ exports.randomMatch = function(req, res){
 		}
 		user.getOthersAI(function(err, others){
 			var map = maps[parseInt(Math.random() * maps.length)];
-			var name = others[parseInt(Math.random() * others.length)].name;
+      do{
+        var name = others[parseInt(Math.random() * others.length)].name;
+      }while(name==req.session.user)
 			res.redirect("/game?map="+map+"&blueName="+req.session.user+"&redName="+name);
 		});
 
