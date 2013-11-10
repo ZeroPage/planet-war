@@ -9,7 +9,7 @@ for(var i =0; i < 7; i++){
   resource.earth[i].src = "/images/planet/blue/"+(i+1)+".png";
 }
 
-for(var i = 0; i < 1; i++){
+for(var i = 0; i < 18; i++){
   resource.mars[i] = new Image();
   resource.mars[i].src = "/images/planet/red/"+(i+1)+".png";
 }
@@ -225,13 +225,15 @@ Node.prototype.draw = function(ctx, dt){
 
   switch(this.type){
     case "earth" :
-      var index = parseInt(this.animateTime/(this.rotationPeriod/resource.earth.length)) || 0;
-      var img = resource.earth[index];
-      ctx.drawImage(img, this.x - this.r, this.y-this.r, this.r*2, this.r*2);
-      break;
+	var index = parseInt(this.animateTime/(this.rotationPeriod/resource.earth.length)) || 0;
+	var img = resource.earth[index];
+	ctx.drawImage(img, this.x - this.r, this.y-this.r, this.r*2, this.r*2);
+	break;
     case "mars":
-      ctx.drawImage(resource.mars[0], this.x - this.r, this.y-this.r, this.r*2, this.r*2);
-      break;
+    	var index = parseInt(this.animateTime/(this.rotationPeriod/resource.mars.length)) || 0;
+    	var img = resource.mars[index];
+      	ctx.drawImage(img, this.x - this.r, this.y-this.r, this.r*2, this.r*2);
+      	break;
     case "moon":
       ctx.drawImage(resource.moon[0], this.x - this.r, this.y-this.r, this.r*2, this.r*2);
     break;
