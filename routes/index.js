@@ -95,6 +95,21 @@ exports.match = function(req, res){
     });
   });
 }
+exports.randomMatch = function(req, res){
+	map.listMap(function(err, maps){
+		if(err){
+			req.flash("alert", "can't load map list");
+			req.redirect("/");
+			return;
+		}
+		user.getOthersAI(function(err, others){
+			var map = maps[parseInt(Math.random() * maps.length)];
+			var name = others[parseInt(Math.random() * others.length)];
+			res.redirect("/game?map="+map+"&blueName="+req.session.user+"&redName="+name);
+		});
+
+	});
+}
 exports.help = function(req, res){
   res.render("help", {title : "help"});
 }
