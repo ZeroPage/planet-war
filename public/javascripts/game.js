@@ -374,8 +374,19 @@ function Army(from, to, num, team){
     var f2 = this.x - to.x < 0;
     return !((f && f2) ||(!f && !f2));
   }
+  
+  if(this.num == 42){
+	  this.animateTime = 0;
+  }
+  
 }
 Army.prototype.run  = function(dt){
+  if(this.num == 42){
+	this.animateTime += dt;
+	if(this.animateTime > 4000)
+		this.animateTime %= 4000;
+  }
+  
   this.x += this.vx * dt / 10;
   this.y += this.vy * dt / 10;
 
@@ -389,9 +400,14 @@ Army.prototype.draw  = function(ctx){
   ctx.save();
   
   ctx.beginPath();
-  if(this.num < 5) ctx.arc(this.x, this.y, this.num + 10, 0, Math.PI*2,true);
-  else if(this.num < 10) ctx.arc(this.x, this.y, this.num + 15, 0, Math.PI*2,true);
-  else ctx.arc(this.x, this.y, this.num + 20, 0, Math.PI*2,true);
+  if(this.num < 5)
+    ctx.arc(this.x, this.y, this.num + 10, 0, Math.PI*2,true);
+  else if(this.num < 10)
+    ctx.arc(this.x, this.y, this.num + 15, 0, Math.PI*2,true);
+  else if(this.num == 42)
+    ctx.arc(this.x, this.y, 150, 0, Math.PI*2,true);
+  else
+    ctx.arc(this.x, this.y, this.num + 20, 0, Math.PI*2,true);
   ctx.closePath();
   //ctx.strokeStyle = this.team;
   //ctx.stroke();
@@ -404,15 +420,26 @@ Army.prototype.draw  = function(ctx){
   
   ctx.translate(this.x, this.y);
   //TODO 적절하게 앵글 조절할것
-  var angle = Math.atan(this.vx/-this.vy) + (this.vy <= 0 ? 0 : Math.PI);
+  var angle;
+  if(this.num == 42){
+	angle = this.animateTime/4000 * Math.PI * 2;
+  } else { 
+    angle = Math.atan(this.vx/-this.vy) + (this.vy <= 0 ? 0 : Math.PI);
+  }
+  
+  
   ctx.rotate(angle);
   ctx.translate(-this.x, -this.y);
   
   var size = this.num + 20;
-  if(this.num < 5) ctx.drawImage(resource.settle[0], this.x - size/2, this.y - size/2, size, size);
-  else if(this.num < 10) ctx.drawImage(resource.settle[1], this.x - (size+10)/2, this.y - (size+10)/2, size+10, size+10);
-  else if(this.num == 42) ctx.drawImage(resource.settle[3], this.x - (50)/2, this.y - (50)/2, 50, 50);
-  else ctx.drawImage(resource.settle[2], this.x - (size+20)/2, this.y - (size+20)/2, size+20, size+20);
+  if(this.num < 5)
+	ctx.drawImage(resource.settle[0], this.x - size/2, this.y - size/2, size, size)
+  else if(this.num < 10)
+    ctx.drawImage(resource.settle[1], this.x - (size+10)/2, this.y - (size+10)/2, size+10, size+10);
+  else if(this.num == 42)
+    ctx.drawImage(resource.settle[3], this.x - (250)/2, this.y - (250)/2, 250, 250);
+  else
+    ctx.drawImage(resource.settle[2], this.x - (size+20)/2, this.y - (size+20)/2, size+20, size+20);
   ctx.restore();
 
   ctx.fillStyle = "white";
