@@ -128,7 +128,7 @@ Game.prototype.run = function(dt){
     }
   });
   this.updateScore(red, blue);
-  return this.matchResultCheck(red,blue);
+  return this.matchResultCheck(red, blue, dt);
 }
 Game.prototype.command = function(team, data){
   if(data.from == data.to)
@@ -169,11 +169,11 @@ Game.prototype.updateScore = function(red, blue){
   this.redScore.innerText = red;
   this.blueScore.innerText = blue;
 };
-Game.prototype.matchResultCheck = function(red, blue){
+Game.prototype.matchResultCheck = function(red, blue, dt){
   if(globalStartTime+5*60*1000<Date.now()){
     console.log("Time over, draw");
     //Draw
-	ajax(this.redId, this.blueId, null, true);
+	end(this.redId, this.blueId, true);
     return "draw";
   }
   var redPlanetNum = 0;
@@ -187,11 +187,11 @@ Game.prototype.matchResultCheck = function(red, blue){
   });
   if(redPlanetNum==0&&red==0){
     console.log("Blue Wins!");
-	ajax(this.blueId, this.redId, null);
+	end(this.blueId, this.redId);
     return "blue";
   }else if(bluePlanetNum==0&&blue==0){
     console.log("Red Wins!");
-	ajax(this.redId, this.blueId, null);
+	end(this.redId, this.blueId);
     return "red";
   }//자기 행성이 없으면서 스코어도 없으면 GG
 };
@@ -416,10 +416,28 @@ function ajax(winnerId, loserId, callback, isDraw){
   var data = "winner="+ winnerId + "&loser=" + loserId + (isDraw ? "&draw=true" : "");
   $ajax.send(data);
   $ajax.addEventListener("readystatechange", function(){
-	console.log("saving..");
-  	if ($ajax.readystate == 4){
-	  console.log("ok");
+	console.log("saving..", $ajax.readyState);
+  	if ($ajax.readyState == 4){
+	  console.log("saved");
+	  callback && callback();
 	}
   });
+}
+
+function end(winner, loser, isDraw){
+	var $endScreen = document.getElementById("endScreen");
+	var $saveProgress = document.getElementById("saveProgress");
+	var $backBtn = $endScreen.getElementsByTagName("a")[0];
+	var $result = document.getElementById("result");
+	if(isDraw)
+		$result.innerHTML = "Draw!";
+	else
+	    $result.innerHTML = winner + " Win!";
+	
+	$endScreen.style.visibility = "visible";
+	ajax(winner, loser, function(){
+		$saveProgress.innerHTML = "saved!";
+		$backBtn.style.visibility = "visible";
+	}, isDraw);
 }
 //gittest
