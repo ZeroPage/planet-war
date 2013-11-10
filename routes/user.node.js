@@ -86,3 +86,23 @@ exports.getScore = function(id){
 	var users = readUsers();
 	return users[id].score;
 }
+exports.getRank = function(){
+	var users = readUsers();
+	var arr = [];
+	for(var user in users){
+		arr.push({name : user, score : users[user].score});
+	}
+	arr.sort(function(left, right){
+		if(left.score.win !=  right.score.win){
+			return left.score.win < right.score.win;
+		}
+		if(left.score.lose != right.score.lose){
+			return left.score.lose > right.score.lose;
+		}
+		if(left.score.draw != right.score.draw) {
+			return left.score.draw > right.score.draw;
+		}
+		return true;
+	});
+	return arr;
+}

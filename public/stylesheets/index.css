@@ -381,3 +381,23 @@ section.match > div > button {
 	font-size: 24px;
 	width: 50%;
 }
+
+section.rank article {
+	background: rgba(0, 0, 0, 0.8);
+	border-radius: 10px;
+	padding: 20px;
+	padding-bottom : 50px;
+	font-family: 'Share Tech', sans-serif;
+}
+section.rank h1 {
+	font-size : 3em;
+}
+section.rank table {
+	width : 100%;
+	border-collapse : collapse;
+}
+section.rank table th,
+section.rank table td{
+	border : 1px solid green;
+	padding : 5px;
+}
