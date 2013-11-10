@@ -28,8 +28,10 @@ for(var i = 0; i< 3; i++){
 	resource.settle[i].src = "/images/settles/settle_"+(i+1)+".png";
 }
 
-resource.otherPlanet[0] = new Image();
-resource.otherPlanet[0].src = "/images/planet/other/1.png";
+for(var i = 0;i < 2;i++){
+	resource.otherPlanet[i] = new Image();
+	resource.otherPlanet[i].src = "/images/planet/other/"+(i+1)+".png";
+}
 
 function Game(blue, red){
   var canvas = document.getElementsByTagName('canvas')[0];
@@ -201,7 +203,8 @@ function Node(x, y, r, num, id){
   this.num = num || 0;
   this.id = id;
   this.regenCount = 0;
-  
+  this.index1 = parseInt(Math.random()*10)%2;
+  //alert(this.index1); 
   //for animation
   var pick = Math.random();
   if(pick < 0.3){
@@ -220,6 +223,7 @@ function Node(x, y, r, num, id){
   //rotationPeriod 1000ms ~ 5000ms
   this.rotationPeriod = parseInt(Math.random()*4000) + 4000;
 }
+
 Node.prototype.run = function(dt){
   this.regenCount += dt * this.r;
   if(this.regenCount > 50000){
@@ -289,7 +293,7 @@ Node.prototype.draw = function(ctx, dt){
       	ctx.drawImage(img, this.x - this.r, this.y-this.r, this.r*2, this.r*2);
       	break;
     case "other":
-    	ctx.drawImage(resource.otherPlanet[0], this.x-(this.r/2+5), this.y-(this.r/2+5), this.r+10, this.r+10);
+    	ctx.drawImage(resource.otherPlanet[this.index1], this.x-(this.r/2+5), this.y-(this.r/2+5), this.r+10, this.r+10);
     break;
   }
   this.animateTime += dt;
