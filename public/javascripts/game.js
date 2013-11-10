@@ -7,17 +7,19 @@ var resource = {
 
 //earth와 관련된 모든 리소스를 담고, 순서대로 출력
 for(var i =0; i < 7; i++){
-  resource.earth[i] = new Image();
-  resource.earth[i].src = "/images/planet/blue/"+(i+1)+".png";
+  	resource.earth[i] = new Image();
+  	resource.earth[i].src = "/images/planet/blue/"+(i+1)+".png";
 }
 
 for(var i = 0; i < 18; i++){
-  resource.mars[i] = new Image();
-  resource.mars[i].src = "/images/planet/red/"+(i+1)+".png";
+  	resource.mars[i] = new Image();
+  	resource.mars[i].src = "/images/planet/red/"+(i+1)+".png";
 }
 
-resource.moon[0] = new Image();
-resource.moon[0].src = "/images/planet/gray/1.png";
+for(var i = 0; i< 11; i++){
+	resource.moon[i] = new Image();
+	resource.moon[i].src = "/images/planet/gray/"+(i+1)+".png";
+}
 
 function Game(blue, red){
   var canvas = document.getElementsByTagName('canvas')[0];
@@ -259,7 +261,9 @@ Node.prototype.draw = function(ctx, dt){
       	ctx.drawImage(img, this.x - this.r, this.y-this.r, this.r*2, this.r*2);
       	break;
     case "moon":
-      ctx.drawImage(resource.moon[0], this.x - this.r, this.y-this.r, this.r*2, this.r*2);
+    	var index = parseInt(this.animateTime/(this.rotationPeriod/resource.moon.length)) || 0;
+    	var img = resource.moon[index];
+      	ctx.drawImage(img, this.x - this.r, this.y-this.r, this.r*2, this.r*2);
     break;
   }
   this.animateTime += dt;
