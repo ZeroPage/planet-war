@@ -61,13 +61,14 @@ exports.setPrimaryCode = function(userName, codeName, callback){
 }
 
 exports.addScore = function(winnerId, loserId, callback, isDraw){
+  if(winnerId == loserId) return callback();
   var users = readUsers();
   if(isDraw){
-    user[winnerId].score.draw++;
-    user[loserId].score.draw++;
+    users[winnerId].score.draw++;
+    users[loserId].score.draw++;
   } else {
-    users.winnerId.score.win++;
-    users.winnerId.socre.lose++;
+    users[winnerId].score.win++;
+    users[loserId].score.lose++;
   }
   fs.writeFile("./users.json", JSON.stringify(users, null, 4), {encode : "utf8"}, callback);
 }
