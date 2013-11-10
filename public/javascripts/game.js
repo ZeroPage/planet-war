@@ -8,7 +8,7 @@ var resource = {
 }
 
 //earth와 관련된 모든 리소스를 담고, 순서대로 출력
-for(var i =0; i < 7; i++){
+for(var i =0; i < 17; i++){
   	resource.earth[i] = new Image();
   	resource.earth[i].src = "/images/planet/blue/"+(i+1)+".png";
 }
@@ -28,7 +28,7 @@ for(var i = 0; i< 3; i++){
 	resource.settle[i].src = "/images/settles/settle_"+(i+1)+".png";
 }
 
-for(var i = 0;i < 2;i++){
+for(var i = 0;i < 3;i++){
 	resource.otherPlanet[i] = new Image();
 	resource.otherPlanet[i].src = "/images/planet/other/"+(i+1)+".png";
 }
@@ -203,20 +203,22 @@ function Node(x, y, r, num, id){
   this.num = num || 0;
   this.id = id;
   this.regenCount = 0;
-  this.index1 = parseInt(Math.random()*10)%2;
+  this.index1 = parseInt(Math.random()*10)%3;
   //alert(this.index1); 
   //for animation
   var pick = Math.random();
-  if(pick < 0.3){
+  if(pick < 0.5){
   	this.type = "mars";
-  }else if(pick < 0.6){
-  	this.type = "moon";
-  }else{
+  }else {
   	this.type = "earth";
   }
 
-  if(pick< 0.5 && this.r <= 20){
+  if(this.r <= 15){
   	this.type = "other";
+  }
+
+  if(this.r>15 && this.r<30){
+  	this.type = "moon";
   }
   //this.type = pick < 0.6 ? pick < 0.3 ? "mars": "moon": "earth" : "other";
   this.animateTime  = 0;
