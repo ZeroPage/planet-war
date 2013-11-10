@@ -200,7 +200,7 @@ Node.prototype.draw = function(ctx, dt){
   if(!this.team) ctx.fillStyle = "rgba(200, 200,200,0.6)";
   
   ctx.beginPath();
-  var start = 0//-Math.PI/2 + 0.3;
+  var start = -Math.PI/2;
   var end = (this.num > this.r ? 1 : this.num/this.r) * (Math.PI*3/2)//(Math.PI*2-0.6);
   
   var space = this.r * 1.1 > this.r + 5 ? this.r * 1.1 : this.r + 5;
@@ -212,8 +212,8 @@ Node.prototype.draw = function(ctx, dt){
   //over
   if(this.num > this.r){
     ctx.beginPath();
-    ctx.arc(this.x, this.y, space +5, -(Math.PI/2)-0.3, -(Math.PI/2)-0.0, false);
-    ctx.arc(this.x, this.y, space+10, -(Math.PI/2)-0.0, -(Math.PI/2)-0.3, true);
+    ctx.arc(this.x, this.y, space +5, -(Math.PI), -(Math.PI/2), false);
+    ctx.arc(this.x, this.y, space+10, -(Math.PI/2), -(Math.PI), true);
     ctx.closePath();
     ctx.fillStyle = "green";
     ctx.fill();
