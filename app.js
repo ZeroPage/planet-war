@@ -39,6 +39,8 @@ app.get("/game", routes.game.static);
 app.get("/code/primary", routes.auth, routes.setPrimaryCode);
 app.get("/help", routes.help)
 app.get("/match", routes.auth, routes.match)
+app.get("/match/random", routes.auth, routes.randomMatch);
+app.post("/score", routes.code.score);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

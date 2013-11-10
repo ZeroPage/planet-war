@@ -1,8 +1,10 @@
+var globalStartTime = Date.now();
 var resource = {
   earth : [],
   mars : [],
   moon : []
 }
+
 //earth와 관련된 모든 리소스를 담고, 순서대로 출력
 for(var i =0; i < 7; i++){
   resource.earth[i] = new Image();
@@ -43,7 +45,7 @@ function Game(blue, red){
   blueWorker.onmessage = function(msg){
     if(msg.data.debug)
       console.log(msg.data.debug);
-    else 
+    else
       that.command("blue", msg.data);
   }
   redWorker.onmessage = function(msg){
@@ -51,11 +53,11 @@ function Game(blue, red){
   }
 
   var dt = 0;
-  var ct = Date.now();
+  var curTime = Date.now();
   function loop(){
-    var oldt = ct;
-    ct = Date.now();
-    dt = ct - oldt;
+    var oldTime = curTime;
+    curTime = Date.now();
+    dt = curTime - oldTime;
    
     blueWorker.postMessage(that.makeInfo("blue"));
     redWorker.postMessage(that.makeInfo("red"));
@@ -112,6 +114,7 @@ Game.prototype.run = function(dt){
     }
   });
   this.updateScore(red, blue);
+  this.matchResultCheck(red,blue);
 }
 Game.prototype.command = function(team, data){
   if(data.from == data.to)
@@ -153,7 +156,28 @@ Game.prototype.updateScore = function(red, blue){
   this.blueScore.innerText = blue;
 };
 Game.prototype.matchResultCheck = function(red, blue){
-//need to be implemented
+  if(globalStartTime+5*60*1000<Date.now()){
+    console.log("Time over, draw");
+    //Draw
+  }
+  var redPlanetNum = 0;
+  var bluePlanetNum = 0;
+  this.node.forEach(function(item){
+    if(item.team == "red"){
+      redPlanetNum++;
+    }else if(item.team == "blue"){
+      bluePlanetNum++;
+    }
+  });
+  if(redPlanetNum==0&&red==0){
+    console.log("Blue Wins!");
+    //blue win
+  }else if(bluePlanetNum==0&&blue==0){
+    console.log("Red Wins!");
+    //red win
+  }//자기 행성이 없으면서 스코어도 없으면 GG
+  
+  
 };
 
 function Node(x, y, r, num, id){
