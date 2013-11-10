@@ -1,81 +1,61 @@
 extends layout
 
 block content
-  section.row.match
-    article#map
-      h1 Map List
-      ul
-        -for(var i = 0; i < maps.length; i++)
-          li 
-            input(type="radio", name="map")
-            label #{maps[i]}
-    div
-      article.ai#my_ai
-        fieldset
-          legend My AI
-          table
-            tr
-              th(rowspan="2")
-              th(rowspan="2") name
-              th(colspan="3") score
-            tr
-              th win
-              th draw
-              th lose
-            -for(var i = 0; i < myCodes.length; i++)
-              tr
-                td
-                  input(type="radio", name="my_ai", value="#{myCodes[i]}")
-                td
-                  label #{myCodes[i]}
-                td 
-                td
-                td
-      article.ai#other_ai
-        fieldset
-          legend Other AI
-          div#searchBox
-            input(type="search", placeholder="search")
-            button.btn(type="submit")
-              span.icon.search
-          table
-            tr
-              th(rowspan="2")
-              th(rowspan="2") name
-              th(colspan="3") score
-            tr
-              th win
-              th draw
-              th lose
-            -for(var i = 0; i < other.length; i++)
-              tr
-                td
-                  input(type="radio", name="other_ai", value="#{other[i]}")
-                td
-                  label #{other[i]}
-                td 
-                td
-                td
-      button.btn FIGHT
   form(action="game", method="GET")
-    dl
-      dt
-        label(for="map") Map
-      dd
-        select(name="map")
+    section.row.match
+      article#map
+        h1 Map List
+        ul
           -for(var i = 0; i < maps.length; i++)
-            option #{maps[i]}
-      dt
-        label(for="blueCode") My AI
-      dd
-        select(name="blueCode")
-          -for(var i = 0; i < myCodes.length; i ++)
-            option #{myCodes[i]}
-      dt
-        label(for="redName") Others AI
-      dd
-        select(name="redName")
-          -for(var i = 0; i < other.length; i++)
-            option #{other[i]}
-    input(name="blueName", type="hidden", value="#{user}")
-    button.btn(type="submit") Let's Fight
+            li 
+              input(type="radio", name="map", value="#{maps[i]}")
+              label #{maps[i]}
+      div
+        article.ai#my_ai
+          fieldset
+            legend My AI
+            table
+              tr
+                th(rowspan="2")
+                th(rowspan="2") name
+                th(colspan="3") score
+              tr
+                th win
+                th draw
+                th lose
+              -for(var i = 0; i < myCodes.length; i++)
+                tr
+                  td
+                    input(type="radio", name="blueCode", value="#{myCodes[i]}")
+                  td
+                    label #{myCodes[i]}
+                  td 
+                  td
+                  td
+        article.ai#other_ai
+          fieldset
+            legend Other AI
+            div#searchBox
+              input(type="search", placeholder="search")
+              button.btn(type="submit")
+                span.icon.search
+            table
+              tr
+                th(rowspan="2")
+                th(rowspan="2") name
+                th(colspan="3") score
+              tr
+                th win
+                th draw
+                th lose
+              -for(var i = 0; i < other.length; i++)
+                tr
+                  td
+                    input(type="radio", name="redName", value="#{other[i]}")
+                  td
+                    label #{other[i]}
+                  td 
+                  td
+                  td
+          input(name="blueName", type="hidden", value="#{user}")
+        button.btn FIGHT
