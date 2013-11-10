@@ -20,7 +20,7 @@ exports.register = function(id, password, callback){
   var users = readUsers();
   if(!!users[id]) return callback("already exist id");
 
-  users[id] = {password : sha512(password)};
+  users[id] = {password : sha512(password), score :{ win : 0, lose : 0, draw : 0}};
   fs.writeFile("./users.json", JSON.stringify(users, null, 4), {encode : "utf8"}, callback);
 }
 exports.checkPassword = function(id, password){
@@ -44,7 +44,7 @@ exports.getOthersAI = function(callback){
   var names = [];
   for(var name in users){
     if(!!users[name].primaryCode){
-      names.push(name);
+      names.push({name: name, score : users[name].score});
     }
   }
   callback(null, names);
@@ -58,4 +58,20 @@ exports.setPrimaryCode = function(userName, codeName, callback){
   var users = readUsers();
   users[userName].primaryCode = codeName;
   fs.writeFile("./users.json", JSON.stringify(users, null, 4), {encode : "utf8"}, callback);
+}
+
+exports.addScore = function(winnerId, loserId, callback, isDraw){
+  var users = readUsers();
+  if(isDraw){
+    user[winnerId].score.draw++;
+    user[loserId].score.draw++;
+  } else {
+    users.winnerId.score.win++;
+    users.winnerId.socre.lose++;
+  }
+  fs.writeFile("./users.json", JSON.stringify(users, null, 4), {encode : "utf8"}, callback);
+}
+exports.getScore = function(id){
+	var users = readUsers();
+	return users[id].score;
 }
