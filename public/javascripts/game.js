@@ -22,7 +22,7 @@ for(var i = 0; i< 10; i++){
 	resource.moon[i].src = "/images/planet/gray/"+(i+1)+".png";
 }
 
-for(var i = 0; i< 2; i++){
+for(var i = 0; i< 3; i++){
 	resource.settle[i] = new Image();
 	resource.settle[i].src = "/images/settles/settle_"+(i+1)+".png";
 }
@@ -340,7 +340,8 @@ Army.prototype.draw  = function(ctx){
   
   ctx.beginPath();
   if(this.num < 5) ctx.arc(this.x, this.y, this.num + 10, 0, Math.PI*2,true);
-  else ctx.arc(this.x, this.y, this.num + 15, 0, Math.PI*2,true);
+  else if(this.num < 10) ctx.arc(this.x, this.y, this.num + 15, 0, Math.PI*2,true);
+  else ctx.arc(this.x, this.y, this.num + 20, 0, Math.PI*2,true);
   ctx.closePath();
   //ctx.strokeStyle = this.team;
   //ctx.stroke();
@@ -359,7 +360,8 @@ Army.prototype.draw  = function(ctx){
   
   var size = this.num + 20;
   if(this.num < 5) ctx.drawImage(resource.settle[0], this.x - size/2, this.y - size/2, size, size);
-  else ctx.drawImage(resource.settle[1], this.x - (size+10)/2, this.y - (size+10)/2, size+10, size+10);
+  else if(this.num < 10) ctx.drawImage(resource.settle[1], this.x - (size+10)/2, this.y - (size+10)/2, size+10, size+10);
+  else ctx.drawImage(resource.settle[2], this.x - (size+20)/2, this.y - (size+20)/2, size+20, size+20);
   ctx.restore();
 
   
