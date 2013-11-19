@@ -47,6 +47,13 @@ exports.signupForm = function(req, res){
 exports.signup = function(req, res){
   var id = req.param("id");
   var password = req.param("password");
+  var confirm = req.param("confirm");
+  
+  if(password != confirm){
+	  req.flash("alert", "please check your password!");
+	  res.redirect("/");
+	  return;
+  }
 
   if(!id || !password){
     req.flash("alert", "Put ID and Password what you want.");
