@@ -168,8 +168,8 @@ Game.prototype.initScore = function(){
   this.blueScore = document.getElementById("blueScore");
 }
 Game.prototype.updateScore = function(red, blue){
-  this.redScore.innerText = red;
-  this.blueScore.innerText = blue;
+  this.redScore.innerHTML = red;
+  this.blueScore.innerHTML = blue;
 };
 Game.prototype.matchResultCheck = function(red, blue, dt){
   if(globalStartTime+5*60*1000<Date.now()){
