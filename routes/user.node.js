@@ -92,17 +92,19 @@ exports.getRank = function(){
 	for(var user in users){
 		arr.push({name : user, score : users[user].score});
 	}
-	arr.sort(function(left, right){
+	arr = arr.sort(function(left, right){
 		if(left.score.win !=  right.score.win){
-			return left.score.win < right.score.win;
+			return left.score.win < right.score.win ? 1 : -1;
 		}
 		if(left.score.lose != right.score.lose){
-			return left.score.lose > right.score.lose;
+			return left.score.lose > right.score.lose ? 1 : -1;
 		}
 		if(left.score.draw != right.score.draw) {
-			return left.score.draw > right.score.draw;
+			return left.score.draw > right.score.draw ? 1 : -1;
 		}
-		return true;
+		return 1;
 	});
 	return arr;
+	
+	
 }
