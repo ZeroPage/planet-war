@@ -255,6 +255,10 @@ section.help article {
 	padding: 20px;
 	border: 2px solid #333333;
 }
+section.help article h1{
+    font-size: 3em;
+	
+}
 
 section.game canvas {
 	display : block;
