@@ -22,7 +22,8 @@ exports.getFilePath = function(id, slot){
 exports.getSlotList = function(id, callback){
   fs.readdir(SAVE_PATH + id+"/", function(err, files){
     if(err) {
-    	return callback(err);
+      console.log("여기 진입");
+    	return callback(err, {});
     }
     //to detech suffix
     files = files.map(function(item){
