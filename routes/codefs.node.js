@@ -13,7 +13,7 @@ exports.save = function(id, slot, file, callback){
   	fs.unlinkSync(file.path);
   	callback(null);
   });
-  is.on("error", callback);
+  is.on('error', callback);
 }
 
 exports.getFilePath = function(id, slot){

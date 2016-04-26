@@ -81,13 +81,13 @@ exports.match = function(req, res){
   code.loadMySlotList(req.session.user,function(err, myCodes){
     if(err){
       req.flash("alert", "can't load my code list.");
-      req.redirect("/match");
+      res.redirect("/");
       return;
     }
     map.listMap(function(err, maps){
       if(err){
         req.flash("alert", "can't load map list.");
-        req.redirect("/match");
+        res.redirect("/");
         return;
       }
       user.getOthersAI(function(err, other){
@@ -105,7 +105,7 @@ exports.randomMatch = function(req, res){
 	map.listMap(function(err, maps){
 		if(err){
 			req.flash("alert", "can't load map list");
-			req.redirect("/");
+			res.redirect("/");
 			return;
 		}
 		user.getOthersAI(function(err, others){
