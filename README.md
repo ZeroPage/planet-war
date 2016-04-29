@@ -14,7 +14,9 @@ This repo contains only server side code.
 So, if you want to test for compete, you should create and upload your ID/AI code.
 
 ##How to install
+test on nodejs v0.10.24 and npm v1.3.21 using nvm
 
-1. install nodejs
+1. install nodejs(v0.10.24)
 2. install jade, flashify, express using npm
 3. run program using "node app.js" at root directory of the project
+
