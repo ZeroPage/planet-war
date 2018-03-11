@@ -1,6 +1,6 @@
-#planet-war
-==========
-##Introduction
+# planet-war
+
+## Introduction
 AI Competition of ZeroPage
 
 “League of Planet” is break the traditional battle game’s way based on PvP or PvE.
@@ -13,7 +13,7 @@ or even try to make perfect strategy that overwhelms all other strategies.
 This repo contains only server side code. 
 So, if you want to test for compete, you should create and upload your ID/AI code.
 
-##How to install
+## How to install
 test on nodejs v0.10.24 and npm v1.3.21 using nvm
 
 1. install nodejs(v0.10.24)
