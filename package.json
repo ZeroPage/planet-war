@@ -6,7 +6,7 @@
     "start": "nodemon -w routes/ -w app.js app.js"
   },
   "dependencies": {
-    "express": "3.0.1",
+    "express": "4.17.1",
     "jade": "*",
     "flashify" : "*"
   }
